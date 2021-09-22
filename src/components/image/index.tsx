@@ -1,54 +1,107 @@
-import React from 'react'
+import 'pure-react-carousel/dist/react-carousel.es.css'
+import React, { useEffect, useState, useMemo } from 'react'
+import { CarouselProvider, Slider, Slide } from 'pure-react-carousel'
 import styled from 'styled-components'
-import { useMediaQuery } from 'react-responsive'
-import { Image as ImageNode } from '@party-opu/funii-assist-types'
-import { ComponentProps, DESKTOP_MIN_WIDTH, TABLET_MIN_WIDTH } from '../props'
+import { AppV1_Image } from '@party-opu/funii-assist-types'
+import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
+import transpiler from '../transpiler'
+import { calcImages } from '../calc'
 
-const Image = ({ node, actionHandler, paths = [], artboardSize }: ComponentProps) => {
-  const image = node as ImageNode
+const DEFAULT_WIDTH = 375
+const DEFAULT_HEIGHT = 375
 
+const getImageSize = (url: string) => {
+  return new Promise<{ width: number; height: number }>((resolve) => {
+    const element = new Image()
+    element.onload = () => {
+      const width = element.naturalWidth
+      const height = element.naturalHeight
+      resolve({ width, height })
+    }
+    element.src = url
+  })
+}
+
+const ImageComponent = ({ node, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Image>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
-  const useIsDesktop = () => {
-    const isDesktop = useMediaQuery({ minWidth: DESKTOP_MIN_WIDTH })
-    return artboardSize ? (artboardSize === 'desktop' ? true : false) : isDesktop
-  }
-  const useIsTablet = () => {
-    const isTablet = useMediaQuery({ minWidth: TABLET_MIN_WIDTH, maxWidth: DESKTOP_MIN_WIDTH - 1 })
-    return artboardSize ? (artboardSize === 'tablet' ? true : false) : isTablet
+  const [width] = useState<number>(DEFAULT_WIDTH)
+  const [height, setHeight] = useState<number | null>(null)
+
+  const images = useMemo(() => {
+    return calcImages(node.images, { listItemData }).filter((item) => item.url)
+  }, [listItemData, node.images])
+
+  useEffect(() => {
+    const task = async () => {
+      if (images.length === 0) return
+
+      let newHeight = 0
+      const calcTask = images.map(async (image) => {
+        if (image.size.width && image.size.height) {
+          const w = image.size.width
+          const h = image.size.height
+          const weight = DEFAULT_WIDTH / w
+
+          if (weight * h > newHeight) {
+            newHeight = weight * h
+          }
+        }
+
+        if (!image.size.width || !image.size.height) {
+          const { width: w, height: h } = await getImageSize(image.url)
+          const weight = DEFAULT_WIDTH / w
+
+          if (weight * h > newHeight) {
+            newHeight = weight * h
+          }
+        }
+      })
+      await Promise.all(calcTask)
+
+      if (newHeight === 0) {
+        newHeight = DEFAULT_HEIGHT
+      }
+      setHeight(newHeight)
+    }
+    task()
+  }, [images])
+
+  if (!node.visible) {
+    return null
   }
 
-  const isDesktop = useIsDesktop()
-  const isTablet = useIsTablet()
+  if (!width || !height) {
+    return null
+  }
 
   return (
-    <React.Fragment>
-      <Wrapper
-        style={
-          image.styleMode === 'common' ? image.containerStyle : isDesktop ? image.containerStyle : isTablet ? image.containerStyleTb : image.containerStyleMb
-        }
-      >
-        <BaseImage
-          src={image.imageURL}
-          data-existlink={exist(image.actions)}
-          style={image.styleMode === 'common' ? image.style : isDesktop ? image.style : isTablet ? image.styleTb : image.styleMb}
-          onClick={() => onCall(image.actions)}
-        />
-      </Wrapper>
-    </React.Fragment>
+    <div style={transpiler.imageTranspile(node).imagesStyle}>
+      <CarouselProvider naturalSlideWidth={width} naturalSlideHeight={height} totalSlides={images.length}>
+        <Slider>
+          {images.map((image, index) => (
+            <Slide key={index} index={index}>
+              <BaseImage
+                style={transpiler.imageTranspile(node, image.url).imageStyle}
+                onClick={() => onCall(node.actions)}
+                data-existlink={exist(node.actions)}
+              />
+            </Slide>
+          ))}
+        </Slider>
+        {/* <ButtonBack>Back</ButtonBack>
+        <ButtonNext>Next</ButtonNext> */}
+      </CarouselProvider>
+    </div>
   )
 }
 
-const Wrapper = styled.div`
-  width: 100%;
-`
-
-const BaseImage = styled.img`
+const BaseImage = styled.div`
   &[data-existlink='true'] {
     cursor: pointer;
   }
 `
 
-export default Image
+export default ImageComponent

@@ -2,7 +2,9 @@ import { useCallback } from 'react'
 import { Action } from '@party-opu/funii-assist-types'
 import { ActionHandler } from './props'
 
-export const useCallableActions = (actionHandler: ActionHandler = (action) => console.info(`${action.type}-action`)) => {
+const defaultActionHandler: ActionHandler = (action) => console.info(`${action.type}-action`)
+
+export const useCallableActions = (actionHandler: ActionHandler = defaultActionHandler) => {
   const onCall = useCallback(
     async (actions: Action[]) => {
       for (let i = 0; i < actions.length; i++) {
@@ -21,15 +23,16 @@ export const useExistValidActions = (paths: string[]) => {
     (actions: Action[]) => {
       let isExist = false
       actions.forEach((action) => {
-        if (action.type === 'internalLink') {
-          if (paths.includes(action.value)) {
+        if (action.type === 'INTERNAL_LINK') {
+          // FIXME: Variableを実装したらjoin周りのロジック修正
+          if (paths.includes(action.value.join(''))) {
             isExist = true
           }
-        } else if (action.type === 'externalLink') {
+        } else if (action.type === 'EXTERNAL_LINK') {
           if (action.value) {
             isExist = true
           }
-        } else if (action.type === 'api') {
+        } else if (action.type === 'API') {
           if (action.endpoint) {
             isExist = true
           }

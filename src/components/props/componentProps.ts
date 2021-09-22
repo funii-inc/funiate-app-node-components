@@ -1,4 +1,4 @@
-import { Node, Action } from '@party-opu/funii-assist-types'
+import { AppV1_NodeMap, Action, AppV1_List, AppV1_Frame } from '@party-opu/funii-assist-types'
 
 export type ArtboardSize = 'desktop' | 'tablet' | 'mobile'
 
@@ -7,27 +7,24 @@ export const TABLET_MIN_WIDTH = 700
 
 export type ActionHandler = (action: Action) => Promise<void> | void
 
-export type ComponentProps = {
-  node: Node
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ComponentProps<T = AppV1_NodeMap, U = any, P = any> = {
+  node: T
   actionHandler?: ActionHandler
   paths?: string[]
-  preview?: boolean
-  onSend?: (value: CreateContact) => Promise<void>
-  artboardSize?: ArtboardSize
+  screenItemData?: U
+  listItemData?: P
+  children?: React.ReactNode
 }
 
-export type Contact = {
-  id: string
-  fields: {
-    label: string
-    value: string
-    order: number
-  }[]
-  createdAt: Date
-  updatedAt: Date
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type ListProps<T = AppV1_List, U = { [key: string]: any }> = {
+  node: T
+  testItems?: U[]
+  renderItem: ({ item }: { item: U }) => React.ReactNode
 }
 
-export type CreateContact = Omit<Contact, 'id' | 'createdAt' | 'updatedAt'> & {
-  createdAt?: Date
-  updatedAt?: Date
+export type FrameProps<T = AppV1_Frame> = {
+  node: T
+  children?: React.ReactNode
 }

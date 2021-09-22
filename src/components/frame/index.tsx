@@ -1,30 +1,20 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Frame as FrameNode } from '@party-opu/funii-assist-types'
-import { ComponentProps, DESKTOP_MIN_WIDTH, TABLET_MIN_WIDTH } from '../props'
-import { useMediaQuery } from 'react-responsive'
+// import styled from 'styled-components'
+import { AppV1_Frame } from '@party-opu/funii-assist-types'
+import { FrameProps } from '../props'
+import transpiler from '../transpiler'
 
-const Frame: React.FC<ComponentProps> = ({ node, children, artboardSize }) => {
-  const frame = node as FrameNode
-
-  const useIsDesktop = () => {
-    const isDesktop = useMediaQuery({ minWidth: DESKTOP_MIN_WIDTH })
-    return artboardSize ? (artboardSize === 'desktop' ? true : false) : isDesktop
-  }
-  const useIsTablet = () => {
-    const isTablet = useMediaQuery({ minWidth: TABLET_MIN_WIDTH, maxWidth: DESKTOP_MIN_WIDTH - 1 })
-    return artboardSize ? (artboardSize === 'tablet' ? true : false) : isTablet
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Frame = ({ node, children }: FrameProps<AppV1_Frame>) => {
+  if (!node.visible) {
+    return null
   }
 
-  const isDesktop = useIsDesktop()
-  const isTablet = useIsTablet()
-  return <div style={frame.styleMode === 'common' ? frame.style : isDesktop ? frame.style : isTablet ? frame.styleTb : frame.styleMb}>{children}</div>
+  return (
+    <div style={transpiler.frameTranspile(node).containerStyle}>
+      <div style={transpiler.frameTranspile(node).frameStyle}>{children}</div>
+    </div>
+  )
 }
-
-export const FrameItemWrapper = styled.div`
-  flex: 1;
-  position: relative;
-  width: 100%;
-`
 
 export default Frame
