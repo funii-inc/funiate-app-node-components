@@ -1,20 +1,26 @@
 import styled from 'styled-components'
 import Layout, { ComponentArea, Spacer, Heading, SubHeading } from './layout'
-import { frame } from './consts/layouts'
-import { text, text2, text3, image, image2, space, button } from './consts/basicNodes'
-import { header, footer, carousel, mission, service, table, member, contact } from './consts/componentSets'
-import Component from '../../src'
+import { typography1, typography2, typography3, image1, image2, space1, space2, space3, button1, button2, button3, button4, button5, button6, testItems, list1, list2, list3, list4, frame1, frame2, frame3, frame4 } from './consts/node'
+import Typography from '../../src/components/typography'
+import Image from '../../src/components/image'
+import Space from '../../src/components/space'
+import Button from '../../src/components/button'
+import List from '../../src/components/list'
+import ListItem from '../../src/components/listItem'
+import Frame from '../../src/components/frame'
 
-<Heading>Layout</Heading>
+<Heading>BasicComponents</Heading>
 
 <Spacer size="xxl" />
 
-<SubHeading>Frame</SubHeading>
+<SubHeading>Typography</SubHeading>
 
 <Spacer size="l" />
 
 <ComponentArea>
-  <Component node={frame} />
+  <Typography node={typography1} />
+  <Typography node={typography2} />
+  <Typography node={typography3} />
 </ComponentArea>
 
 <Spacer size="l" />
@@ -25,41 +31,9 @@ import Component from '@party-opu/funii-web-components'
 
 const Page = () => (
   <React.Fragment>
-    <Component node={frame} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-<Spacer size="xxl" />
-
-<Heading>BasicNode</Heading>
-
-<Spacer size="xxl" />
-
-<SubHeading>Text</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={text} />
-  <Component node={text2} />
-  <Component node={text3} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={text} />
-    <Component node={text2} /> // link text
-    <Component node={text3} /> // custom styling text
+    <Component node={typography1} />
+    <Component node={typography2} />
+    <Component node={typography3} />
   </React.Fragment>
 )
 
@@ -73,9 +47,9 @@ export default Page
 <Spacer size="l" />
 
 <ComponentArea>
-  <Component node={image} />
+  <Image node={image1} />
   <Spacer size="s" />
-  <Component node={image2} />
+  <Image node={image2} />
 </ComponentArea>
 
 <Spacer size="l" />
@@ -86,213 +60,8 @@ import Component from '@party-opu/funii-web-components'
 
 const Page = () => (
   <React.Fragment>
-    <Component node={image} />
-    <Component node={image2} /> // link and custom styling image
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-<Spacer size="xxl" />
-
-<Heading>ComponentSet</Heading>
-
-<Spacer size="xxl" />
-
-<SubHeading>Header</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={header} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={header} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-
-<SubHeading>Footer</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={footer} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={footer} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-
-<SubHeading>Carousel</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={carousel} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={carousel} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-
-<SubHeading>Mission</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={mission} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component type="mission" node={mission} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-
-<SubHeading>Service</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={service} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={service} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-
-<SubHeading>table</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={table} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={table} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-
-<SubHeading>Member</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={member} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={member} />
-  </React.Fragment>
-)
-
-export default Page
-```
-
-<Spacer size="xxl" />
-
-<SubHeading>Contact</SubHeading>
-
-<Spacer size="l" />
-
-<ComponentArea>
-  <Component node={contact} onSend={(form) => console.info(form)} />
-</ComponentArea>
-
-<Spacer size="l" />
-
-```jsx
-import React from 'react'
-import Component from '@party-opu/funii-web-components'
-
-const Page = () => (
-  <React.Fragment>
-    <Component node={contact} onSend={(form) => console.info(form)} />
+    <Component node={typography1} />
+    <Component node={typography1} /> // link and custom styling image
   </React.Fragment>
 )
 
@@ -306,10 +75,17 @@ export default Page
 <Spacer size="l" />
 
 <ComponentArea>
-  <Component node={space} />
+  <Typography node={typography3} />
+  <Space node={space1} />
+  <Typography node={typography3} />
+  <Space node={space2} />
+  <Typography node={typography3} />
+  <Space node={space3} />
+  <Typography node={typography3} />
 </ComponentArea>
 
 <Spacer size="l" />
+
 
 ```jsx
 import React from 'react'
@@ -317,7 +93,13 @@ import Component from '@party-opu/funii-web-components'
 
 const Page = () => (
   <React.Fragment>
-    <Component node={space} />
+    <Component node={typography3} />
+    <Component node={space1} />
+    <Component node={typography3} />
+    <Component node={space2} />
+    <Component node={typography3} />
+    <Component node={space3} />
+    <Component node={typography3} />
   </React.Fragment>
 )
 
@@ -331,7 +113,94 @@ export default Page
 <Spacer size="l" />
 
 <ComponentArea>
-  <Component node={button} />
+  <Button node={button1} />
+  <Button node={button2} />
+  <Button node={button3} />
+  <Button node={button4} />
+  <Button node={button5} />
+  <Button node={button6} />
+</ComponentArea>
+
+<Spacer size="l" />
+
+
+```jsx
+import React from 'react'
+import Component from '@party-opu/funii-web-components'
+
+const Page = () => (
+  <React.Fragment>
+    <Component node={button1} />
+    <Component node={button2} />
+    <Component node={button3} />
+    <Component node={button4} />
+    <Component node={button5} />
+    <Component node={button6} />
+  </React.Fragment>
+)
+
+export default Page
+```
+
+<Spacer size="xxl" />
+
+<SubHeading>List</SubHeading>
+
+<Spacer size="l" />
+
+<ComponentArea>
+  <List node={list1} testItems={testItems} renderItem={({ item }) => <ListItem node={list1.item} listItemData={item} />} />
+  <List node={list2} testItems={testItems} renderItem={({ item }) => <ListItem node={list2.item} listItemData={item} />} />
+  <List node={list3} testItems={testItems} renderItem={({ item }) => <ListItem node={list3.item} listItemData={item} />} />
+  <List node={list4} testItems={testItems} renderItem={({ item }) => <ListItem node={list4.item} listItemData={item} />} />
+</ComponentArea>
+
+<Spacer size="l" />
+
+
+```jsx
+import React from 'react'
+import Component from '@party-opu/funii-web-components'
+
+const Page = () => (
+  <React.Fragment>
+    <Component node={list1} />
+    <Component node={list2} />
+    <Component node={list3} />
+    <Component node={list4} />
+  </React.Fragment>
+)
+
+export default Page
+```
+
+<Spacer size="xxl" />
+
+<SubHeading>Frame</SubHeading>
+
+<Spacer size="l" />
+
+<ComponentArea>
+  <Frame node={frame1}>
+    <Typography node={typography1} />
+    <Typography node={typography2} />
+    <Typography node={typography3} />
+  </Frame>
+  <Frame node={frame2}>
+    <Typography node={typography1} />
+    <Typography node={typography2} />
+    <Typography node={typography3} />
+  </Frame>
+  <Frame node={frame3}>
+    <Typography node={typography1} />
+    <Typography node={typography2} />
+    <Typography node={typography3} />
+  </Frame>
+  <Frame node={frame4}>
+    <Typography node={typography3} />
+    <Typography node={typography2} />
+    <Typography node={typography1} />
+  </Frame>
 </ComponentArea>
 
 <Spacer size="l" />
@@ -342,7 +211,26 @@ import Component from '@party-opu/funii-web-components'
 
 const Page = () => (
   <React.Fragment>
-    <Component node={button} />
+    <Component node={frame1}>
+      <Component node={typography1} />
+      <Component node={typography2} />
+      <Component node={typography3} />
+    </Component>
+    <Component node={frame2}>
+      <Component node={typography1} />
+      <Component node={typography2} />
+      <Component node={typography3} />
+    </Component>
+    <Component node={frame3}>
+      <Component node={typography1} />
+      <Component node={typography2} />
+      <Component node={typography3} />
+    </Component>
+    <Component node={frame4}>
+      <Component node={typography3} />
+      <Component node={typography2} />
+      <Component node={typography1} />
+    </Component>
   </React.Fragment>
 )
 

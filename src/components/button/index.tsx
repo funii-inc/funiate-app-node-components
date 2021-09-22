@@ -1,58 +1,37 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Button as ButtonNode } from '@party-opu/funii-assist-types'
-import { ComponentProps, DESKTOP_MIN_WIDTH, TABLET_MIN_WIDTH } from '../props'
+import { AppV1_Button } from '@party-opu/funii-assist-types'
+import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
-import { useMediaQuery } from 'react-responsive'
+import transpiler from '../transpiler'
+import { calcText } from '../calc'
 
-const Button = ({ node, actionHandler, paths = [], artboardSize }: ComponentProps) => {
-  const button = node as ButtonNode
-
+const Button = ({ node, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Button>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
-  const useIsDesktop = () => {
-    const isDesktop = useMediaQuery({ minWidth: DESKTOP_MIN_WIDTH })
-    return artboardSize ? (artboardSize === 'desktop' ? true : false) : isDesktop
+  if (!node.visible) {
+    return null
   }
-  const useIsTablet = () => {
-    const isTablet = useMediaQuery({ minWidth: TABLET_MIN_WIDTH, maxWidth: DESKTOP_MIN_WIDTH - 1 })
-    return artboardSize ? (artboardSize === 'tablet' ? true : false) : isTablet
-  }
-
-  const isDesktop = useIsDesktop()
-  const isTablet = useIsTablet()
 
   return (
-    <React.Fragment>
-      <Wrapper style={button.styleMode === 'common' || isDesktop ? button.containerStyle : isTablet ? button.containerStyleTb : button.containerStyleMb}>
-        <BaseButton
-          data-existlink={exist(button.actions)}
-          style={button.styleMode === 'common' ? button.style : isDesktop ? button.style : isTablet ? button.styleTb : button.styleMb}
-          onClick={() => onCall(button.actions)}
-        >
-          <BaseText
-            style={button.styleMode === 'common' ? button.textStyle : isDesktop ? button.textStyle : isTablet ? button.textStyleTb : button.textStyleMb}
-          >
-            {button.value}
-          </BaseText>
-        </BaseButton>
-      </Wrapper>
-    </React.Fragment>
+    <div style={transpiler.buttonTranspile(node).containerStyle}>
+      <BaseButton data-existlink={exist(node.actions)} onClick={() => onCall(node.actions)} style={transpiler.buttonTranspile(node).buttonStyle}>
+        {node.icon && <div style={transpiler.buttonTranspile(node).iconStyle} />}
+        {node.icon && calcText(node.text, { listItemData }).length > 0 && <div style={{ width: node.itemSpacing }} />}
+        <Typography style={transpiler.buttonTranspile(node).typographyStyle}>{calcText(node.text, { listItemData })}</Typography>
+      </BaseButton>
+    </div>
   )
 }
 
-const Wrapper = styled.div`
-  width: 100%;
-  overflow: hidden;
-`
-
-const BaseButton = styled.div`
+const BaseButton = styled.button`
   &[data-existlink='true'] {
     cursor: pointer;
   }
 `
-const BaseText = styled.p`
+
+const Typography = styled.p`
   white-space: pre-wrap;
 `
 

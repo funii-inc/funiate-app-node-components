@@ -1,5 +1,4 @@
 import './styles/reset.css'
-import 'react-multi-carousel/lib/styles.css'
 import React from 'react'
 import Markdown from './markdown'
 import Welcome from './welcome.mdx'
