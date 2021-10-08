@@ -11,9 +11,11 @@ import {
   AppV1_Space,
   AppV1_Typography,
   AxisAlign,
+  AxisDistribute,
   Color,
   SizingMode,
   SolidPaint,
+  TextStyle,
 } from '@party-opu/funii-assist-types'
 
 class ReactStyleTranspiler {
@@ -79,7 +81,7 @@ class ReactStyleTranspiler {
     return { ...decimalObject, a: _a }
   }
 
-  toCSSColor = (color: Color): Property.Color => {
+  toCssColor = (color: Color): Property.Color => {
     return `rgba(${color.r}, ${color.g}, ${color.b}, ${color.a})`
   }
 
@@ -95,7 +97,7 @@ class ReactStyleTranspiler {
     throw Error('invalid input color-code.')
   }
 
-  toCSSPadding = (padding: number[]): Property.Padding => {
+  toCssPadding = (padding: number[]): Property.Padding => {
     let cssPadding = ''
     padding.forEach((num, index) => {
       if (index === padding.length - 1) {
@@ -107,7 +109,7 @@ class ReactStyleTranspiler {
     return cssPadding
   }
 
-  toCSSBorderRadius = (cornerRadius: number[]): Property.BorderRadius => {
+  toCssBorderRadius = (cornerRadius: number[]): Property.BorderRadius => {
     let borderRadius = ''
     cornerRadius.forEach((num, index) => {
       if (index === cornerRadius.length - 1) {
@@ -145,7 +147,7 @@ class ReactStyleTranspiler {
     if (!stroke || strokeWeight === 0) {
       return 'none'
     }
-    const borderColor = this.toCSSColor(stroke.color)
+    const borderColor = this.toCssColor(stroke.color)
     const border = `${strokeWeight / this.pxUnit}rem solid ${borderColor}`
     return border
   }
@@ -194,20 +196,47 @@ class ReactStyleTranspiler {
     return alignItems
   }
 
-  typographyTranspile = (node: AppV1_Typography) => {
-    const textAlign = this.toCssTextAlign(node.textStyle.textAlignHorizontal)
-    const verticalAlign = this.toCssVerticalAlign(node.textStyle.textAlignVertical)
+  toCssAlignContent = (axisDistribute: AxisDistribute): Property.AlignContent => {
+    let alignContent: Property.AlignContent = 'start'
+    if (axisDistribute === 'CENTER') {
+      alignContent = 'center'
+    }
+    if (axisDistribute === 'END') {
+      alignContent = 'end'
+    }
+    if (axisDistribute === 'SPACE_BETWEEN') {
+      alignContent = 'space-between'
+    }
+    if (axisDistribute === 'SPACE_AROUND') {
+      alignContent = 'space-around'
+    }
+    return alignContent
+  }
 
-    const padding = this.toCSSPadding(node.padding)
+  toCssTextStyle = (textStyle: TextStyle) => {
+    const textAlign = this.toCssTextAlign(textStyle.textAlignHorizontal)
+    const verticalAlign = this.toCssVerticalAlign(textStyle.textAlignVertical)
 
     const style: React.CSSProperties = {
-      fontFamily: node.textStyle.fontFamily ?? undefined,
-      fontWeight: node.textStyle.fontWeight,
-      fontSize: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      lineHeight: node.textStyle.lineHeight,
+      fontFamily: textStyle.fontFamily ?? undefined,
+      fontWeight: textStyle.fontWeight,
+      fontSize: `${textStyle.fontSize / this.pxUnit}rem`,
+      lineHeight: textStyle.lineHeight,
+      letterSpacing: textStyle.letterSpacing,
       textAlign,
       verticalAlign,
-      color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
+      color: textStyle.fills.length > 0 ? this.toCssColor(textStyle.fills[0].color) : 'black',
+    }
+
+    return style
+  }
+
+  typographyTranspile = (node: AppV1_Typography) => {
+    const textStyle = this.toCssTextStyle(node.textStyle)
+    const padding = this.toCssPadding(node.padding)
+
+    const style: React.CSSProperties = {
+      ...textStyle,
       padding,
     }
 
@@ -244,15 +273,15 @@ class ReactStyleTranspiler {
       backgroundSize = 'cover'
     }
 
-    const padding = this.toCSSPadding(node.padding)
-    const borderRadius = this.toCSSBorderRadius(node.cornerRadius)
+    // const padding = this.toCssPadding(node.padding)
+    const borderRadius = this.toCssBorderRadius(node.cornerRadius)
 
     const imagesStyle: React.CSSProperties = {
       overflow: 'hidden',
       position: 'relative',
       width,
       height,
-      padding,
+      // padding,
       borderRadius,
     }
 
@@ -284,7 +313,7 @@ class ReactStyleTranspiler {
     // FIXME: AxisSizingModeがFIXEDで幅が小さい時の対応どうするか考えないといけない
     const paddingHorizontal = `${node.shapeHorizontalSpacing / this.pxUnit}rem`
     const paddingVertical = `${node.shapeVerticalSpacing / this.pxUnit}rem`
-    const borderRadius = this.toCSSBorderRadius(node.cornerRadius)
+    const borderRadius = this.toCssBorderRadius(node.cornerRadius)
     const border = this.toCssBorder(node.stroke, node.strokeWeight)
 
     // const textAlign = this.toCssTextAlign(node.textStyle.textAlignHorizontal)
@@ -294,7 +323,7 @@ class ReactStyleTranspiler {
 
     const justifyContent = this.toCssJustifyContent(node.shapeAlignHorizontal)
     const alignItems = this.toCssAlignItems(node.shapeAlignVertical)
-    const padding = this.toCSSPadding(node.padding)
+    const padding = this.toCssPadding(node.padding)
 
     const containerStyle: React.CSSProperties = {
       width: '100%',
@@ -315,7 +344,7 @@ class ReactStyleTranspiler {
       padding: `${paddingVertical} ${paddingHorizontal}`,
       borderRadius,
       border,
-      backgroundColor: node.fills.length > 0 ? this.toCSSColor(node.fills[0].color) : 'black',
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'black',
     }
 
     const iconStyle: React.CSSProperties = {
@@ -324,17 +353,13 @@ class ReactStyleTranspiler {
       fontSize: `${node.textStyle.fontSize / this.pxUnit}rem`,
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
+      backgroundColor: node.textStyle.fills.length > 0 ? this.toCssColor(node.textStyle.fills[0].color) : 'black',
     }
 
     const typographyStyle: React.CSSProperties = {
-      fontFamily: node.textStyle.fontFamily ?? undefined,
-      fontWeight: node.textStyle.fontWeight,
-      fontSize: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      lineHeight: node.textStyle.lineHeight,
+      ...this.toCssTextStyle(node.textStyle),
       textAlign: 'center', // buttonStyleで制御する
       verticalAlign: 'center', // buttonStyleで制御する
-      color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
     }
 
     return { containerStyle, buttonStyle, iconStyle, typographyStyle }
@@ -344,14 +369,17 @@ class ReactStyleTranspiler {
     const width = this.toCssWidth(node.size.width, node.layoutMode === 'HORIZONTAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
     const height = this.toCssHeight(node.size.height, node.layoutMode === 'VERTICAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
 
+    const listPadding = this.toCssPadding(node.listSpacing)
+
     const justifyContent = this.toCssJustifyContent(node.listAlignHorizontal)
     const alignItems = this.toCssAlignItems(node.listAlignVertical)
 
-    const borderRadius = this.toCSSBorderRadius(node.cornerRadius)
+    const borderRadius = this.toCssBorderRadius(node.cornerRadius)
     const border = this.toCssBorder(node.stroke, node.strokeWeight)
-    const padding = this.toCSSPadding(node.padding)
+    const padding = this.toCssPadding(node.padding)
 
     const listAlignItems = this.toCssAlignItems(node.primaryAxisAlign)
+    const listAlignContent = this.toCssAlignContent(node.counterAxisDistribute)
 
     const containerStyle: React.CSSProperties = {
       width: '100%',
@@ -367,9 +395,11 @@ class ReactStyleTranspiler {
       overflowX: node.layoutMode === 'HORIZONTAL' ? 'scroll' : 'auto',
       overflowY: node.layoutMode === 'VERTICAL' ? 'scroll' : 'auto',
       alignItems: listAlignItems,
+      alignContent: listAlignContent,
       width,
       height,
-      backgroundColor: node.fills.length > 0 ? this.toCSSColor(node.fills[0].color) : 'transparent',
+      padding: listPadding,
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
       borderRadius,
       border,
     }
@@ -381,11 +411,14 @@ class ReactStyleTranspiler {
     const width = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
     const height = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
 
-    const borderRadius = this.toCSSBorderRadius(node.cornerRadius)
+    const itemPaddingHorizontal = `${node.shapeHorizontalSpacing / this.pxUnit}rem`
+    const itemPaddingVertical = `${node.shapeVerticalSpacing / this.pxUnit}rem`
+
+    const borderRadius = this.toCssBorderRadius(node.cornerRadius)
 
     const justifyContent = this.toCssJustifyContent(node.shapeAlignHorizontal)
     const alignItems = this.toCssAlignItems(node.shapeAlignVertical)
-    const padding = this.toCSSPadding(node.padding)
+    const padding = this.toCssPadding(node.padding)
 
     const containerStyle: React.CSSProperties = {
       width: '100%',
@@ -401,38 +434,22 @@ class ReactStyleTranspiler {
       alignItems: 'center',
       width,
       height,
-      backgroundColor: node.fills.length > 0 ? this.toCSSColor(node.fills[0].color) : 'transparent',
+      padding: `${itemPaddingVertical} ${itemPaddingHorizontal}`,
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
       borderRadius,
     }
 
     const iconStyle: React.CSSProperties = {
-      width: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      height: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      fontSize: `${node.textStyle.fontSize / this.pxUnit}rem`,
+      width: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
+      height: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
+      fontSize: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
+      backgroundColor: node.primaryTextStyle.fills.length > 0 ? this.toCssColor(node.primaryTextStyle.fills[0].color) : 'black',
     }
 
-    const primaryTextStyle: React.CSSProperties = {
-      fontFamily: node.textStyle.fontFamily ?? undefined,
-      fontWeight: node.textStyle.fontWeight,
-      fontSize: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      lineHeight: node.textStyle.lineHeight,
-      textAlign: 'left',
-      verticalAlign: 'center',
-      color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-    }
-
-    const secondaryTextStyle: React.CSSProperties = {
-      fontFamily: node.textStyle.fontFamily ?? undefined,
-      fontWeight: node.textStyle.fontWeight,
-      fontSize: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      lineHeight: node.textStyle.lineHeight,
-      textAlign: 'left',
-      verticalAlign: 'center',
-      color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-    }
+    const primaryTextStyle: React.CSSProperties = this.toCssTextStyle(node.primaryTextStyle)
+    const secondaryTextStyle: React.CSSProperties = this.toCssTextStyle(node.secondaryTextStyle)
 
     return { containerStyle, listItemStyle, iconStyle, primaryTextStyle, secondaryTextStyle }
   }
@@ -440,15 +457,17 @@ class ReactStyleTranspiler {
   frameTranspile = (node: AppV1_Frame) => {
     const width = this.toCssWidth(node.size.width, node.layoutMode === 'HORIZONTAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
     const height = this.toCssHeight(node.size.height, node.layoutMode === 'VERTICAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
+    const framePadding = this.toCssPadding(node.frameSpacing)
 
     const justifyContent = this.toCssJustifyContent(node.frameAlignHorizontal)
     const alignItems = this.toCssAlignItems(node.frameAlignVertical)
 
-    const borderRadius = this.toCSSBorderRadius(node.cornerRadius)
+    const borderRadius = this.toCssBorderRadius(node.cornerRadius)
     const border = this.toCssBorder(node.stroke, node.strokeWeight)
-    const padding = this.toCSSPadding(node.padding)
+    const padding = this.toCssPadding(node.padding)
 
     const frameAlignItems = this.toCssAlignItems(node.primaryAxisAlign)
+    const frameAlignContent = this.toCssAlignContent(node.counterAxisDistribute)
 
     const containerStyle: React.CSSProperties = {
       width: '100%',
@@ -464,9 +483,11 @@ class ReactStyleTranspiler {
       overflowX: node.layoutMode === 'HORIZONTAL' ? 'scroll' : 'hidden',
       overflowY: node.layoutMode === 'VERTICAL' ? 'scroll' : 'hidden',
       alignItems: frameAlignItems,
+      alignContent: frameAlignContent,
       width,
       height,
-      backgroundColor: node.fills.length > 0 ? this.toCSSColor(node.fills[0].color) : 'transparent',
+      padding: framePadding,
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
       borderRadius,
       border,
     }
