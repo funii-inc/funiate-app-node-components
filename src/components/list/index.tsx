@@ -27,7 +27,7 @@ const List = ({ node, testItems, renderItem }: ListProps<AppV1_List, AppV1_ListI
     <div style={transpiler.listTranspile(node).containerStyle}>
       <div style={transpiler.listTranspile(node).listStyle}>
         {items.map((item, index) => (
-          <div key={index}>
+          <div key={index} style={{ width: '100%' }}>
             {renderItem({ item })}
             {items.length - 1 !== index && (
               <>

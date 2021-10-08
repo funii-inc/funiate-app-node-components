@@ -1,6 +1,6 @@
 {
   "name": "@party-opu/funii-assist-web-components",
-  "version": "0.2.25",
+  "version": "0.2.26",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -35,7 +35,7 @@
     "registry": "https://npm.pkg.github.com/"
   },
   "peerDependencies": {
-    "@party-opu/funii-assist-types": ">=0.2.56",
+    "@party-opu/funii-assist-types": ">=0.2.64",
     "pure-react-carousel": "^1.27.6",
     "react": ">=16.9.0",
     "react-dom": ">=16.9.0",
@@ -46,7 +46,7 @@
     "@babel/preset-react": "^7.10.4",
     "@mdx-js/loader": "^1.6.16",
     "@mdx-js/react": "^1.6.16",
-    "@party-opu/funii-assist-types": "^0.2.56",
+    "@party-opu/funii-assist-types": "^0.2.64",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "@types/react-responsive": "^8.0.2",
