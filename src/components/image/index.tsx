@@ -1,4 +1,4 @@
-import 'pure-react-carousel/dist/react-carousel.es.css'
+// import 'pure-react-carousel/dist/react-carousel.es.css'
 import React, { useEffect, useState, useMemo } from 'react'
 import { CarouselProvider, Slider, Slide } from 'pure-react-carousel'
 import styled from 'styled-components'
