@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { AppV1_List, AppV1_ListItem } from '@party-opu/funii-assist-types'
+import { AppV1_List, AppV1_ListItem } from '@funii-inc/funii-assist-types'
 import { ListProps } from '../props'
 import transpiler from '../transpiler'
 

@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { CarouselProvider, Slider, Slide } from 'pure-react-carousel'
 import styled from 'styled-components'
-import { AppV1_Image } from '@party-opu/funii-assist-types'
+import { AppV1_Image } from '@funii-inc/funii-assist-types'
 import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import transpiler from '../transpiler'
@@ -79,16 +79,22 @@ const ImageComponent = ({ node, actionHandler, paths = [], listItemData }: Compo
 
   return (
     <div style={transpiler.imageTranspile(node).imagesStyle}>
-      <CarouselProvider naturalSlideWidth={width} naturalSlideHeight={height} totalSlides={images.length}>
+      <CarouselProvider
+        naturalSlideWidth={width}
+        naturalSlideHeight={height}
+        totalSlides={images.length}
+        dragEnabled={images.length > 1}
+        touchEnabled={images.length > 1}
+      >
         <Slider>
           {images.map((image, index) => (
-            <Slide key={index} index={index}>
+            <StyledSlide key={index} index={index} style={{ outline: 'none !important' }}>
               <BaseImage
                 style={transpiler.imageTranspile(node, image.url).imageStyle}
                 onClick={() => onCall(node.actions)}
                 data-existlink={exist(node.actions)}
               />
-            </Slide>
+            </StyledSlide>
           ))}
         </Slider>
         {/* <ButtonBack>Back</ButtonBack>
@@ -101,6 +107,13 @@ const ImageComponent = ({ node, actionHandler, paths = [], listItemData }: Compo
 const BaseImage = styled.div`
   &[data-existlink='true'] {
     cursor: pointer;
+  }
+`
+
+const StyledSlide = styled(Slide)`
+  // クリックした時にfocusが表示されるので消している
+  .focusRing___1airF.carousel__slide-focus-ring {
+    outline: none !important;
   }
 `
 

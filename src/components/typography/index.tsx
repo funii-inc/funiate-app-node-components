@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppV1_Typography } from '@party-opu/funii-assist-types'
+import { AppV1_Typography } from '@funii-inc/funii-assist-types'
 import { ComponentProps } from '../props'
 import transpiler from '../transpiler'
 import { useCallableActions, useExistValidActions } from '../hooks'
@@ -15,10 +15,12 @@ const Typography = ({ node, actionHandler, paths = [], listItemData }: Component
   }
 
   return (
-    <BaseTypography data-existlink={exist(node.actions)} style={transpiler.typographyTranspile(node)} onClick={() => onCall(node.actions)}>
-      {/* FIXME: Variableを実装したらjoin周りのロジック修正 */}
-      {calcText(node.text, { listItemData })}
-    </BaseTypography>
+    <div style={transpiler.typographyTranspile(node).containerStyle}>
+      <BaseTypography data-existlink={exist(node.actions)} style={transpiler.typographyTranspile(node).typographyStyle} onClick={() => onCall(node.actions)}>
+        {/* FIXME: Variableを実装したらjoin周りのロジック修正 */}
+        {calcText(node.text, { listItemData })}
+      </BaseTypography>
+    </div>
   )
 }
 

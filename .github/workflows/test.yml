@@ -29,7 +29,7 @@ jobs:
           always-auth: true
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@party-opu'
+          scope: '@funii-inc'
       - name: Restore Npm Cache
         uses: actions/cache@v2
         with:
@@ -59,7 +59,7 @@ jobs:
           always-auth: true
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@party-opu'
+          scope: '@funii-inc'
       - name: Restore Npm Cache
         uses: actions/cache@v2
         with:

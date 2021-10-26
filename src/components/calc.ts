@@ -1,4 +1,4 @@
-import { StorageFile, Variable } from '@party-opu/funii-assist-types'
+import { StorageFile, Variable } from '@funii-inc/funii-assist-types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isVariable = (arg: any): arg is Variable => {

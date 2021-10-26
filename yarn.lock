@@ -993,6 +993,11 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
+"@funii-inc/funii-assist-types@^0.3.1":
+  version "0.3.1"
+  resolved "https://npm.pkg.github.com/download/@funii-inc/funii-assist-types/0.3.1/29550721b239011d2cd69ac76dad2a01ccadc875d31063bf1eb73b2be80d431f#58425c1af116692b4445d01b00aa0aa8300dfebc"
+  integrity sha512-C8iTNengNgUsZWLYiL+JXDNJxysDYJXJa7mCpmgdfsJ2lDklmih4713MM5hXu541KAzSXBwfjujtm1+qZZEQqA==
+
 "@mdx-js/loader@^1.6.16":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/loader/-/loader-1.6.22.tgz#d9e8fe7f8185ff13c9c8639c048b123e30d322c4"
@@ -1057,11 +1062,6 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
-
-"@party-opu/funii-assist-types@^0.2.64":
-  version "0.2.64"
-  resolved "https://npm.pkg.github.com/download/@party-opu/funii-assist-types/0.2.64/e624297049b682707283ee68b09ae497a833b4214de29f4030d352407441f517#aa9a4ff6deaf733dbdf527ebf78c014b980e513d"
-  integrity sha512-tjBloVh9wn39UPziImTOhv1XH4W4b85k+iuf+T3/xeDJu9+gA3jKR2l6HzmaxNl2kX+8Fq+pb7kYTYSnDne5NQ==
 
 "@types/glob@^7.1.1":
   version "7.1.3"

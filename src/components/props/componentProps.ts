@@ -1,4 +1,4 @@
-import { AppV1_NodeMap, Action, AppV1_List, AppV1_Frame } from '@party-opu/funii-assist-types'
+import { AppV1_NodeMap, Action, AppV1_List, AppV1_Frame } from '@funii-inc/funii-assist-types'
 
 export type ArtboardSize = 'desktop' | 'tablet' | 'mobile'
 
