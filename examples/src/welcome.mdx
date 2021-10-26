@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import Layout, { ComponentArea, Spacer, Heading, SubHeading } from './layout'
-import { typography1, typography2, typography3, image1, image2, space1, space2, space3, button1, button2, button3, button4, button5, button6, testItems, list1, list2, list3, list4, frame1, frame2, frame3, frame4 } from './consts/node'
+import { typography1, typography2, typography3, typography4, typography5, typography6, image1, image2, space1, space2, space3, button1, button2, button3, button4, button5, button6, testItems, list1, list2, list3, list4, frame1, frame2, frame3, frame4 } from './consts/node'
 import Typography from '../../src/components/typography'
 import Image from '../../src/components/image'
 import Space from '../../src/components/space'
@@ -182,24 +182,29 @@ export default Page
 
 <ComponentArea>
   <Frame node={frame1}>
-    <Typography node={typography1} />
-    <Typography node={typography2} />
-    <Typography node={typography3} />
+    <Typography node={typography4} />
+    <Typography node={typography5} />
+    <Typography node={typography6} />
   </Frame>
   <Frame node={frame2}>
-    <Typography node={typography1} />
-    <Typography node={typography2} />
-    <Typography node={typography3} />
+    <Typography node={typography4} />
+    <Typography node={typography5} />
+    <Typography node={typography6} />
   </Frame>
   <Frame node={frame3}>
-    <Typography node={typography1} />
-    <Typography node={typography2} />
-    <Typography node={typography3} />
+    <Typography node={typography4} />
+    <Typography node={typography5} />
+    <Typography node={typography6} />
   </Frame>
   <Frame node={frame4}>
-    <Typography node={typography3} />
-    <Typography node={typography2} />
+    <Typography node={typography4} />
+    <Typography node={typography5} />
+    <Typography node={typography6} />
+  </Frame>
+  <Frame node={frame4}>
     <Typography node={typography1} />
+    <Typography node={typography2} />
+    <Typography node={typography3} />
   </Frame>
 </ComponentArea>
 
@@ -227,9 +232,14 @@ const Page = () => (
       <Component node={typography3} />
     </Component>
     <Component node={frame4}>
-      <Component node={typography3} />
-      <Component node={typography2} />
       <Component node={typography1} />
+      <Component node={typography2} />
+      <Component node={typography3} />
+    </Component>
+    <Component node={frame4}>
+      <Component node={typography4} />
+      <Component node={typography5} />
+      <Component node={typography6} />
     </Component>
   </React.Fragment>
 )

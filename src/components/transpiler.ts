@@ -226,21 +226,48 @@ class ReactStyleTranspiler {
       textAlign,
       verticalAlign,
       color: textStyle.fills.length > 0 ? this.toCssColor(textStyle.fills[0].color) : 'black',
+      wordBreak: 'break-word', // MEMO: ここの制御をどうするか考えないといけない
+    }
+
+    if (textStyle.lineBreak === 'BREAK') {
+      style['wordBreak'] = 'break-all'
+    }
+
+    if (textStyle.lineBreak === 'NO_BREAK') {
+      style['whiteSpace'] = 'nowrap'
     }
 
     return style
   }
 
   typographyTranspile = (node: AppV1_Typography) => {
+    const width = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
+    const height = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
+
     const textStyle = this.toCssTextStyle(node.textStyle)
     const padding = this.toCssPadding(node.padding)
 
-    const style: React.CSSProperties = {
-      ...textStyle,
+    const containerStyle: React.CSSProperties = {
+      width,
+      height,
       padding,
     }
 
-    return style
+    if (node.verticalAxisSizingMode === 'FIXED' || node.verticalAxisSizingMode === 'STRETCH') {
+      containerStyle['overflowY'] = 'hidden'
+    }
+
+    if (node.horizontalAxisSizingMode === 'FIXED' || node.horizontalAxisSizingMode === 'STRETCH') {
+      containerStyle['overflowX'] = 'hidden'
+    }
+
+    const typographyStyle: React.CSSProperties = {
+      ...textStyle,
+      width: '100%', // サイズはcontainerで指定する
+      height: '100%', // サイズはcontainerで指定する
+    }
+
+    return { containerStyle, typographyStyle }
   }
 
   // FIXME: SizingModeがFIXEDの時は正しく表示されないので修正する必要がある
@@ -283,6 +310,7 @@ class ReactStyleTranspiler {
       height,
       // padding,
       borderRadius,
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
     }
 
     const imageStyle: React.CSSProperties = {
@@ -292,7 +320,6 @@ class ReactStyleTranspiler {
       backgroundPosition,
       backgroundSize,
       backgroundRepeat: 'no-repeat',
-      backgroundColor: 'grey',
     }
 
     return { imagesStyle, imageStyle }
