@@ -16,7 +16,7 @@ import {
   SizingMode,
   SolidPaint,
   TextStyle,
-} from '@party-opu/funii-assist-types'
+} from '@funii-inc/funii-assist-types'
 
 class ReactStyleTranspiler {
   constructor(pxUnit = 10) {

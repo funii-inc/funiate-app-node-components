@@ -1,58 +1,27 @@
-# funii-web-components
+# funii-assist-web-components
 
-**[github-pages](https://party-opu.github.io/funii-assist-web-components/)**
+**[github-pages](https://funii-inc.github.io/funii-assist-web-components/)**
 
 ## Contribute
 
-```
-# ==== Emojis ====
-# 🐛  :bug: バグ修正
-# 💄  :lipstick: デザイン修正
-# ✨  :sparkles: 機能追加
-# 🎉  :tada: 盛大に祝うべき大きな機能追加
-# ♻️  :recycle: リファクタリング
-# 💩  :poop: 不要な機能・使われなくなった機能の削除
-# 💚  :green_heart: テストやCIの修正・改善
-# 🚀 :rocket: パフォーマンス改善
-# 📦  :package: 依存パッケージなどのアップデート
-# 🔒  :lock: 新機能の公開範囲の制限
-# 👮  :cop: セキュリティ関連の改善
-# 💡  :bulb: ドキュメント修正・改善
-# 🥚  :egg: イースター・エッグの追加
+コミットメッセージは下記を参考にする。
 
-# ==== Format ====
-# :emoji: Subject
-#
-# Commit body...
-
-# ==== The Seven Rules ====
-# 1. Separate subject from body with a blank line
-# 2. Limit the subject line to 50 characters
-# 3. Capitalize the subject line
-# 4. Do not end the subject line with a period
-# 5. Use the imperative mood in the subject line
-# 6. Wrap the body at 72 characters
-# 7. Use the body to explain what and why vs. how
-#
-# How to Write a Git Commit Message http://chris.beams.io/posts/git-commit/
-
-# for http://memo.goodpatch.co/2016/07/beautiful-commits-with-emojis/
-```
+https://gist.github.com/kousaku-maron/1ec9197e130862208028dc51ca207f75
 
 ## Installation
 
 GitHub Packagesで公開する場合、レジストリを登録する必要があります。
 
 ```
-@party-opu:registry="https://npm.pkg.github.com"
+@funii-inc:registry="https://npm.pkg.github.com"
 ```
 
 ```
 // with npm
-npm install @party-opu/funii-assist-web-components
+npm install @funii-inc/funii-assist-web-components
 
 // with yarn
-yarn add @party-opu/funii-assist-web-components
+yarn add @funii-inc/funii-assist-web-components
 ```
 
 ## Peer Dependencies
@@ -60,7 +29,7 @@ yarn add @party-opu/funii-assist-web-components
 ライブラリを利用するために、下記ライブラリをインストールする必要があります。
 
 ```
-"@party-opu/funii-assist-types": ">=0.2.15",
+"@funii-inc/funii-assist-types": "latest",
 "react": ">=16.9.0",
 "react-dom": ">=16.9.0",
 "react-icons": "^3.11.0",

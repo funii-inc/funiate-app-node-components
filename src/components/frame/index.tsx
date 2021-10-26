@@ -1,6 +1,6 @@
 import React from 'react'
 // import styled from 'styled-components'
-import { AppV1_Frame } from '@party-opu/funii-assist-types'
+import { AppV1_Frame } from '@funii-inc/funii-assist-types'
 import { FrameProps } from '../props'
 import transpiler from '../transpiler'
 

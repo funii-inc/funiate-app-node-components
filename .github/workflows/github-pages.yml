@@ -18,7 +18,7 @@ jobs:
           always-auth: true
           node-version: '14.x'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@party-opu'
+          scope: '@funii-inc'
       - name: Cache dependencies
         uses: actions/cache@v1
         with:

@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppV1_Button } from '@party-opu/funii-assist-types'
+import { AppV1_Button } from '@funii-inc/funii-assist-types'
 import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import transpiler from '../transpiler'
