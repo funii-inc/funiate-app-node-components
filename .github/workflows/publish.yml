@@ -43,18 +43,18 @@ jobs:
           version: ${{ env.PACKAGE_VERSION }}
           git_commit_sha: ${{ github.sha }}
           git_tag_prefix: "v"
-  dispatch:
-    needs: release
-    strategy:
-      matrix:
-        repo: ['party-opu/funii-assist-web', 'party-opu/funii-assist-web-template']
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.GIT_TOKEN }}
-          repository: ${{ matrix.repo }}
-          event-type: update-packages
-          client-payload: '{"packages": "@${{ github.repository }}"}'
+  # dispatch:
+  #   needs: release
+  #   strategy:
+  #     matrix:
+  #       repo: ['party-opu/funii-assist-web', 'party-opu/funii-assist-web-template']
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 10
+  #   steps:
+  #     - name: Repository Dispatch
+  #       uses: peter-evans/repository-dispatch@v1
+  #       with:
+  #         token: ${{ secrets.GIT_TOKEN }}
+  #         repository: ${{ matrix.repo }}
+  #         event-type: update-packages
+  #         client-payload: '{"packages": "@${{ github.repository }}"}'
