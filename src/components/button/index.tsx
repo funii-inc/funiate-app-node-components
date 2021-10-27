@@ -6,7 +6,7 @@ import { useCallableActions, useExistValidActions } from '../hooks'
 import transpiler from '../transpiler'
 import { calcText } from '../calc'
 
-const Button = ({ node, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Button>) => {
+const Button = ({ node, fullWidth = true, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Button>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -15,11 +15,11 @@ const Button = ({ node, actionHandler, paths = [], listItemData }: ComponentProp
   }
 
   return (
-    <div style={transpiler.buttonTranspile(node).containerStyle}>
-      <BaseButton data-existlink={exist(node.actions)} onClick={() => onCall(node.actions)} style={transpiler.buttonTranspile(node).buttonStyle}>
-        {node.icon && <div style={transpiler.buttonTranspile(node).iconStyle} />}
+    <div style={transpiler.buttonTranspile(node, fullWidth).containerStyle}>
+      <BaseButton data-existlink={exist(node.actions)} onClick={() => onCall(node.actions)} style={transpiler.buttonTranspile(node, fullWidth).buttonStyle}>
+        {node.icon && <div style={transpiler.buttonTranspile(node, fullWidth).iconStyle} />}
         {node.icon && calcText(node.text, { listItemData }).length > 0 && <div style={{ width: node.itemSpacing }} />}
-        <Typography style={transpiler.buttonTranspile(node).typographyStyle}>{calcText(node.text, { listItemData })}</Typography>
+        <Typography style={transpiler.buttonTranspile(node, fullWidth).typographyStyle}>{calcText(node.text, { listItemData })}</Typography>
       </BaseButton>
     </div>
   )

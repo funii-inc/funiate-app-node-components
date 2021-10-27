@@ -6,7 +6,7 @@ import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText } from '../calc'
 import transpiler from '../transpiler'
 
-const ListItem = ({ node, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_ListItem>) => {
+const ListItem = ({ node, fullWidth = true, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_ListItem>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -15,19 +15,23 @@ const ListItem = ({ node, actionHandler, paths = [], listItemData }: ComponentPr
   }
 
   return (
-    <div style={transpiler.listItemTranspile(node).containerStyle}>
-      <BaseListItem data-existlink={exist(node.actions)} onClick={() => onCall(node.actions)} style={transpiler.listItemTranspile(node).listItemStyle}>
+    <div style={transpiler.listItemTranspile(node, fullWidth).containerStyle}>
+      <BaseListItem
+        data-existlink={exist(node.actions)}
+        onClick={() => onCall(node.actions)}
+        style={transpiler.listItemTranspile(node, fullWidth).listItemStyle}
+      >
         {node.icon && (
           <>
             <IconWrapper>
-              <div style={transpiler.listItemTranspile(node).iconStyle} />
+              <div style={transpiler.listItemTranspile(node, fullWidth).iconStyle} />
             </IconWrapper>
             <div style={{ width: 9 }} />
           </>
         )}
         <ListItemText>
-          <p style={transpiler.listItemTranspile(node).primaryTextStyle}>{calcText(node.primaryText, { listItemData })}</p>
-          <p style={transpiler.listItemTranspile(node).secondaryTextStyle}>{calcText(node.secondaryText, { listItemData })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth).primaryTextStyle}>{calcText(node.primaryText, { listItemData })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth).secondaryTextStyle}>{calcText(node.secondaryText, { listItemData })}</p>
         </ListItemText>
       </BaseListItem>
     </div>

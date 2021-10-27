@@ -23,7 +23,7 @@ const getImageSize = (url: string) => {
   })
 }
 
-const ImageComponent = ({ node, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Image>) => {
+const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Image>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -78,28 +78,30 @@ const ImageComponent = ({ node, actionHandler, paths = [], listItemData }: Compo
   }
 
   return (
-    <div style={transpiler.imageTranspile(node).imagesStyle}>
-      <CarouselProvider
-        naturalSlideWidth={width}
-        naturalSlideHeight={height}
-        totalSlides={images.length}
-        dragEnabled={images.length > 1}
-        touchEnabled={images.length > 1}
-      >
-        <Slider>
-          {images.map((image, index) => (
-            <StyledSlide key={index} index={index} style={{ outline: 'none !important' }}>
-              <BaseImage
-                style={transpiler.imageTranspile(node, image.url).imageStyle}
-                onClick={() => onCall(node.actions)}
-                data-existlink={exist(node.actions)}
-              />
-            </StyledSlide>
-          ))}
-        </Slider>
-        {/* <ButtonBack>Back</ButtonBack>
-        <ButtonNext>Next</ButtonNext> */}
-      </CarouselProvider>
+    <div style={transpiler.imageTranspile(node, undefined, fullWidth).containerStyle}>
+      <div style={transpiler.imageTranspile(node, undefined, fullWidth).imagesStyle}>
+        <CarouselProvider
+          naturalSlideWidth={width}
+          naturalSlideHeight={height}
+          totalSlides={images.length}
+          dragEnabled={images.length > 1}
+          touchEnabled={images.length > 1}
+        >
+          <Slider>
+            {images.map((image, index) => (
+              <StyledSlide key={index} index={index}>
+                <BaseImage
+                  style={transpiler.imageTranspile(node, image.url, fullWidth).imageStyle}
+                  onClick={() => onCall(node.actions)}
+                  data-existlink={exist(node.actions)}
+                />
+              </StyledSlide>
+            ))}
+          </Slider>
+          {/* <ButtonBack>Back</ButtonBack>
+          <ButtonNext>Next</ButtonNext> */}
+        </CarouselProvider>
+      </div>
     </div>
   )
 }

@@ -173,6 +173,36 @@ export const typography6: AppV1_Typography = {
   actions: [],
 }
 
+export const typography7: AppV1_Typography = {
+  id: '7',
+  name: 'タイポグラフィー',
+  thumbnailURL: null,
+  visible: true,
+  type: 'TYPOGRAPHY',
+  text: [
+    'コンピュータープログラミング（英語: Computer Programming）とは、ある特定のコンピューティングの結果を得ることを目的として、実行可能なコンピュータープログラムを設計・構築するプロセスのことである。プログラミングが関係するタスクの例としては、アルゴリズムの生成、アルゴリズムの正確さとリソースの消費量のプロファイリング、選択したプログラミング言語でのアルゴリズムの実装（これは一般にコーディングと呼ばれる）などがある',
+  ],
+  textStyle: {
+    fontFamily: null,
+    fontWeight: REGULAR,
+    fontSize: 14,
+    lineHeight: 1.2,
+    letterSpacing: 0.25,
+    lineBreak: 'BREAK',
+    textAlignHorizontal: 'LEFT',
+    textAlignVertical: 'CENTER',
+    fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+  },
+  horizontalAxisSizingMode: 'FIXED',
+  verticalAxisSizingMode: 'AUTO',
+  size: {
+    width: 350,
+    height: null,
+  },
+  padding: [24, 12, 12, 24],
+  actions: [],
+}
+
 export const image1: AppV1_Image = {
   id: '1',
   name: 'イメージ',
@@ -239,17 +269,49 @@ export const image2: AppV1_Image = {
   ],
   fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
   renderMode: 'CAROUSEL',
-  horizontalAxisSizingMode: 'AUTO',
+  horizontalAxisSizingMode: 'FIXED',
   verticalAxisSizingMode: 'AUTO',
   size: {
-    width: null,
+    width: 300,
     height: null,
   },
   scaleMode: 'FIT',
   imageAlignHorizontal: 'CENTER',
   imageAlignVertical: 'CENTER',
-  padding: [0, 0, 0, 0],
-  cornerRadius: [0, 0, 0, 0],
+  padding: [24, 24, 24, 24],
+  cornerRadius: [24, 24, 24, 24],
+  actions: [],
+}
+
+export const image3: AppV1_Image = {
+  id: '3',
+  name: 'イメージ',
+  thumbnailURL: null,
+  visible: true,
+  type: 'IMAGE',
+  images: [
+    {
+      path: null,
+      size: {
+        width: null,
+        height: null,
+      },
+      url: 'https://shop.cake-cake.net/rich_field/images/cate_3/SP/38.jpg',
+    },
+  ],
+  fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+  renderMode: 'CAROUSEL',
+  horizontalAxisSizingMode: 'FIXED',
+  verticalAxisSizingMode: 'AUTO',
+  size: {
+    width: 300,
+    height: null,
+  },
+  scaleMode: 'FIT',
+  imageAlignHorizontal: 'CENTER',
+  imageAlignVertical: 'CENTER',
+  padding: [24, 24, 24, 24],
+  cornerRadius: [24, 24, 24, 24],
   actions: [],
 }
 
@@ -853,7 +915,7 @@ export const frame2: AppV1_Frame = {
   layoutMode: 'VERTICAL',
   primaryAxisSizingMode: 'FIXED',
   counterAxisSizingMode: 'FIXED',
-  primaryAxisAlign: 'CENTER',
+  primaryAxisAlign: 'START',
   counterAxisDistribute: 'START',
   size: {
     width: 300,
@@ -879,7 +941,7 @@ export const frame3: AppV1_Frame = {
   layoutMode: 'VERTICAL',
   primaryAxisSizingMode: 'FIXED',
   counterAxisSizingMode: 'FIXED',
-  primaryAxisAlign: 'CENTER',
+  primaryAxisAlign: 'END',
   counterAxisDistribute: 'START',
   size: {
     width: 300,
@@ -905,6 +967,32 @@ export const frame4: AppV1_Frame = {
   layoutMode: 'HORIZONTAL',
   primaryAxisSizingMode: 'AUTO',
   counterAxisSizingMode: 'STRETCH',
+  primaryAxisAlign: 'CENTER',
+  counterAxisDistribute: 'START',
+  size: {
+    width: null,
+    height: null,
+  },
+  frameAlignHorizontal: 'CENTER',
+  frameAlignVertical: 'CENTER',
+  fills: [{ type: 'SOLID', color: { r: 244, g: 244, b: 244, a: 1 } }],
+  stroke: null,
+  strokeWeight: 0,
+  cornerRadius: [0, 0, 0, 0],
+  padding: [6, 12, 6, 12],
+}
+
+export const frame5: AppV1_Frame = {
+  id: '5',
+  name: 'フレーム',
+  thumbnailURL: null,
+  visible: true,
+  type: 'FRAME',
+  frameSpacing: [0, 0, 0, 0],
+  itemSpacing: 0,
+  layoutMode: 'HORIZONTAL',
+  primaryAxisSizingMode: 'AUTO',
+  counterAxisSizingMode: 'AUTO',
   primaryAxisAlign: 'CENTER',
   counterAxisDistribute: 'START',
   size: {

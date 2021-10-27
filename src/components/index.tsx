@@ -8,35 +8,46 @@ import Image from './image'
 import Space from './space'
 import Button from './button'
 
-const Component = ({ node, actionHandler, paths, children }: ComponentProps) => {
+const Component = ({ node, fullWidth = true, actionHandler, paths, children }: ComponentProps) => {
   const NodeTree = useCallback(
-    ({ node, actionHandler, paths }: ComponentProps) => {
+    ({ node, fullWidth = true, actionHandler, paths }: ComponentProps) => {
       switch (node.type) {
         // Layouts
         // -----------------------------
         case 'LIST': {
-          return <List node={node} renderItem={({ item }) => <NodeTree node={node.item} actionHandler={actionHandler} paths={paths} listItemData={item} />} />
+          return (
+            <List
+              node={node}
+              fullWidth={fullWidth}
+              renderItem={({ item }) => <NodeTree node={node.item} fullWidth={true} actionHandler={actionHandler} paths={paths} listItemData={item} />}
+            />
+          )
         }
         case 'FRAME': {
-          return <Frame node={node}>{children}</Frame>
+          return (
+            <Frame node={node} fullWidth={fullWidth}>
+              {children}
+            </Frame>
+          )
         }
 
         // BasicComponent
         // -----------------------------
         case 'TYPOGRAPHY': {
-          return <Typography node={node} actionHandler={actionHandler} paths={paths} />
+          return <Typography node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
         }
         case 'IMAGE': {
-          return <Image node={node} actionHandler={actionHandler} paths={paths} />
+          return <Image node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
         }
+        // SpaceにfullWidthの概念は不要(containerStyleがないため)
         case 'SPACE': {
           return <Space node={node} actionHandler={actionHandler} paths={paths} />
         }
         case 'BUTTON': {
-          return <Button node={node} actionHandler={actionHandler} paths={paths} />
+          return <Button node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
         }
         case 'LISTITEM': {
-          return <ListItem node={node} actionHandler={actionHandler} paths={paths} />
+          return <ListItem node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
         }
 
         default: {
@@ -47,7 +58,7 @@ const Component = ({ node, actionHandler, paths, children }: ComponentProps) => 
     [children]
   )
 
-  return <NodeTree node={node} actionHandler={actionHandler} paths={paths} />
+  return <NodeTree node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
 }
 
 export default Component

@@ -121,26 +121,26 @@ class ReactStyleTranspiler {
     return borderRadius
   }
 
-  toCssWidth = (width: number | null, sizingMode: SizingMode) => {
-    let cssWidth: Property.Width = 'auto'
-    if (sizingMode === 'FIXED' && width) {
-      cssWidth = `${width / this.pxUnit}rem`
-    }
-    if (sizingMode === 'STRETCH') {
-      cssWidth = `100%`
-    }
-    return cssWidth
-  }
-
-  toCssHeight = (height: number | null, sizingMode: SizingMode) => {
+  toCssHeight = (height: number | null, sizingMode: SizingMode, py?: number) => {
     let cssHeight: Property.Height = 'auto'
     if (sizingMode === 'FIXED' && height) {
-      cssHeight = `${height / this.pxUnit}rem`
+      cssHeight = `${(height + (py ?? 0)) / this.pxUnit}rem`
     }
     if (sizingMode === 'STRETCH') {
       cssHeight = `100%`
     }
     return cssHeight
+  }
+
+  toCssWidth = (width: number | null, sizingMode: SizingMode, px?: number) => {
+    let cssWidth: Property.Width = 'auto'
+    if (sizingMode === 'FIXED' && width) {
+      cssWidth = `${(width + (px ?? 0)) / this.pxUnit}rem`
+    }
+    if (sizingMode === 'STRETCH') {
+      cssWidth = `100%`
+    }
+    return cssWidth
   }
 
   toCssBorder = (stroke: SolidPaint | null, strokeWeight: number): Property.Border => {
@@ -240,40 +240,45 @@ class ReactStyleTranspiler {
     return style
   }
 
-  typographyTranspile = (node: AppV1_Typography) => {
-    const width = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
-    const height = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
+  typographyTranspile = (node: AppV1_Typography, fullWidth?: boolean) => {
+    const px = node.padding[1] + node.padding[3]
+    const py = node.padding[0] + node.padding[2]
+    const containerWidth = fullWidth ? '100%' : this.toCssWidth(node.size.width, node.horizontalAxisSizingMode, px)
+    const containerHeight = this.toCssHeight(node.size.height, node.verticalAxisSizingMode, py)
+    const containerPadding = this.toCssPadding(node.padding)
 
+    const width = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
     const textStyle = this.toCssTextStyle(node.textStyle)
-    const padding = this.toCssPadding(node.padding)
 
     const containerStyle: React.CSSProperties = {
-      width,
-      height,
-      padding,
+      flexShrink: 0,
+      width: containerWidth,
+      overflowX: 'hidden',
+      height: containerHeight,
+      padding: containerPadding,
     }
 
     if (node.verticalAxisSizingMode === 'FIXED' || node.verticalAxisSizingMode === 'STRETCH') {
       containerStyle['overflowY'] = 'hidden'
     }
 
-    if (node.horizontalAxisSizingMode === 'FIXED' || node.horizontalAxisSizingMode === 'STRETCH') {
-      containerStyle['overflowX'] = 'hidden'
-    }
-
     const typographyStyle: React.CSSProperties = {
       ...textStyle,
-      width: '100%', // サイズはcontainerで指定する
-      height: '100%', // サイズはcontainerで指定する
+      width,
+      height: 'auto', // 高さはcontainerに任せる
     }
 
     return { containerStyle, typographyStyle }
   }
 
-  // FIXME: SizingModeがFIXEDの時は正しく表示されないので修正する必要がある
-  imageTranspile = (node: AppV1_Image, imageURL?: string) => {
+  imageTranspile = (node: AppV1_Image, imageURL?: string, fullWidth?: boolean) => {
+    const px = node.padding[1] + node.padding[3]
+    const py = node.padding[0] + node.padding[2]
+    const containerWidth = fullWidth ? '100%' : this.toCssWidth(node.size.width, node.horizontalAxisSizingMode, px)
+    const containerHeight = this.toCssHeight(node.size.height, node.verticalAxisSizingMode, py)
+    const containerPadding = this.toCssPadding(node.padding)
+
     const width = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
-    const height = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
 
     const backgroundPosition = 'center'
     // if (node.imageStyle.imageAlignVertical === 'CENTER') {
@@ -300,77 +305,100 @@ class ReactStyleTranspiler {
       backgroundSize = 'cover'
     }
 
-    // const padding = this.toCssPadding(node.padding)
     const borderRadius = this.toCssBorderRadius(node.cornerRadius)
 
+    const containerStyle: React.CSSProperties = {
+      flexShrink: 0,
+      flexGrow: 0,
+      width: containerWidth,
+      overflowX: 'hidden',
+      height: containerHeight,
+      padding: containerPadding,
+    }
+
+    if (node.verticalAxisSizingMode === 'FIXED' || node.verticalAxisSizingMode === 'STRETCH') {
+      containerStyle['overflowY'] = 'hidden'
+    }
+
     const imagesStyle: React.CSSProperties = {
-      overflow: 'hidden',
       position: 'relative',
       width,
-      height,
-      // padding,
+      height: '100%', // 高さはcontainerに任せる
+      overflow: 'hidden',
       borderRadius,
       backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
     }
 
+    // MEMO: 幅が%だとflexでの制御ができないのでmarginで制御している。(position(relative - absolute)を利用しているので消える)
+    if (node.imageAlignHorizontal === 'LEFT') {
+      imagesStyle['marginRight'] = 'auto'
+    }
+    if (node.imageAlignHorizontal === 'CENTER') {
+      imagesStyle['marginRight'] = 'auto'
+      imagesStyle['marginLeft'] = 'auto'
+    }
+    if (node.imageAlignHorizontal === 'RIGHT') {
+      imagesStyle['marginLeft'] = 'auto'
+    }
+
     const imageStyle: React.CSSProperties = {
-      width: '100%', // サイズはcontainerで指定する
-      height: '100%', // サイズはcontainerで指定する
+      width: '100%', // 幅はimagesに任せる
+      height: '100%', // 高さはimagesに任せる
       background: imageURL ? `url(${imageURL})` : undefined,
       backgroundPosition,
       backgroundSize,
       backgroundRepeat: 'no-repeat',
     }
 
-    return { imagesStyle, imageStyle }
+    return { containerStyle, imagesStyle, imageStyle }
   }
 
   spaceTranspile = (node: AppV1_Space) => {
     const style: React.CSSProperties = {
+      flexShrink: 0,
       width: `${node.size / this.pxUnit}rem`,
       height: `${node.size / this.pxUnit}rem`,
     }
     return style
   }
 
-  buttonTranspile = (node: AppV1_Button) => {
-    const width = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
-    const height = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
+  buttonTranspile = (node: AppV1_Button, fullWidth?: boolean) => {
+    const px = node.padding[1] + node.padding[3]
+    const containerWidth = fullWidth ? '100%' : this.toCssWidth(node.size.width, node.horizontalAxisSizingMode, px)
+    const containerJustifyContent = this.toCssJustifyContent(node.shapeAlignHorizontal)
+    const containerAlignItems = this.toCssAlignItems(node.shapeAlignVertical)
+    const containerPadding = this.toCssPadding(node.padding)
 
-    // FIXME: AxisSizingModeがFIXEDで幅が小さい時の対応どうするか考えないといけない
-    const paddingHorizontal = `${node.shapeHorizontalSpacing / this.pxUnit}rem`
-    const paddingVertical = `${node.shapeVerticalSpacing / this.pxUnit}rem`
-    const borderRadius = this.toCssBorderRadius(node.cornerRadius)
-    const border = this.toCssBorder(node.stroke, node.strokeWeight)
-
-    // const textAlign = this.toCssTextAlign(node.textStyle.textAlignHorizontal)
-    // const verticalAlign = this.toCssVerticalAlign(node.textStyle.textAlignVertical)
-    const textJustifyContent = this.toCssJustifyContent(node.textStyle.textAlignHorizontal)
-    const textAlignItem = this.toCssAlignItems(node.textStyle.textAlignVertical)
-
-    const justifyContent = this.toCssJustifyContent(node.shapeAlignHorizontal)
-    const alignItems = this.toCssAlignItems(node.shapeAlignVertical)
-    const padding = this.toCssPadding(node.padding)
+    const buttonWidth = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
+    const buttonHeight = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
+    const buttonTextJustifyContent = this.toCssJustifyContent(node.textStyle.textAlignHorizontal)
+    const buttonTextAlignItem = this.toCssAlignItems(node.textStyle.textAlignVertical)
+    const buttonPx = `${node.shapeHorizontalSpacing / this.pxUnit}rem` // FIXME: AxisSizingModeがFIXEDで幅が小さい時の対応どうするか考えないといけない
+    const buttonPy = `${node.shapeVerticalSpacing / this.pxUnit}rem` // FIXME: AxisSizingModeがFIXEDで幅が小さい時の対応どうするか考えないといけない
+    const buttonBorderRadius = this.toCssBorderRadius(node.cornerRadius)
+    const buttonBorder = this.toCssBorder(node.stroke, node.strokeWeight)
 
     const containerStyle: React.CSSProperties = {
-      width: '100%',
+      flexShrink: 0,
+      width: containerWidth,
+      overflowX: 'hidden',
       display: 'flex',
       flexDirection: 'row',
-      justifyContent,
-      alignItems,
-      padding,
+      justifyContent: containerJustifyContent,
+      alignItems: containerAlignItems,
+      padding: containerPadding,
     }
 
     const buttonStyle: React.CSSProperties = {
       display: 'flex',
       flexDirection: 'row',
-      alignItems: textAlignItem,
-      justifyContent: textJustifyContent,
-      width,
-      height,
-      padding: `${paddingVertical} ${paddingHorizontal}`,
-      borderRadius,
-      border,
+      alignItems: buttonTextAlignItem,
+      justifyContent: buttonTextJustifyContent,
+      width: buttonWidth,
+      height: buttonHeight,
+      padding: `${buttonPy} ${buttonPx}`,
+      borderRadius: buttonBorderRadius,
+      border: buttonBorder,
       backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'black',
     }
 
@@ -392,28 +420,33 @@ class ReactStyleTranspiler {
     return { containerStyle, buttonStyle, iconStyle, typographyStyle }
   }
 
-  listTranspile = (node: AppV1_List) => {
+  listTranspile = (node: AppV1_List, fullWidth?: boolean) => {
+    const px = node.padding[1] + node.padding[3]
+    const containerWidth = fullWidth
+      ? '100%'
+      : this.toCssWidth(node.size.width, node.layoutMode === 'HORIZONTAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode, px)
+    const containerJustifyContent = this.toCssJustifyContent(node.listAlignHorizontal)
+    const containerAlignItems = this.toCssAlignItems(node.listAlignVertical)
+    const containerPadding = this.toCssPadding(node.padding)
+
     const width = this.toCssWidth(node.size.width, node.layoutMode === 'HORIZONTAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
     const height = this.toCssHeight(node.size.height, node.layoutMode === 'VERTICAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
 
     const listPadding = this.toCssPadding(node.listSpacing)
 
-    const justifyContent = this.toCssJustifyContent(node.listAlignHorizontal)
-    const alignItems = this.toCssAlignItems(node.listAlignVertical)
-
     const borderRadius = this.toCssBorderRadius(node.cornerRadius)
     const border = this.toCssBorder(node.stroke, node.strokeWeight)
-    const padding = this.toCssPadding(node.padding)
 
     const listAlignItems = this.toCssAlignItems(node.primaryAxisAlign)
     const listAlignContent = this.toCssAlignContent(node.counterAxisDistribute)
 
     const containerStyle: React.CSSProperties = {
-      width: '100%',
+      flexShrink: 0,
+      width: containerWidth,
       display: 'flex',
-      justifyContent,
-      alignItems,
-      padding,
+      justifyContent: containerJustifyContent,
+      alignItems: containerAlignItems,
+      padding: containerPadding,
     }
 
     const listStyle: React.CSSProperties = {
@@ -434,7 +467,13 @@ class ReactStyleTranspiler {
     return { containerStyle, listStyle }
   }
 
-  listItemTranspile = (node: AppV1_ListItem) => {
+  listItemTranspile = (node: AppV1_ListItem, fullWidth?: boolean) => {
+    const px = node.padding[1] + node.padding[3]
+    const containerWidth = fullWidth ? '100%' : this.toCssWidth(node.size.width, node.horizontalAxisSizingMode, px)
+    const containerJustifyContent = this.toCssJustifyContent(node.shapeAlignHorizontal)
+    const containerAlignItems = this.toCssAlignItems(node.shapeAlignVertical)
+    const containerPadding = this.toCssPadding(node.padding)
+
     const width = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
     const height = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
 
@@ -443,16 +482,13 @@ class ReactStyleTranspiler {
 
     const borderRadius = this.toCssBorderRadius(node.cornerRadius)
 
-    const justifyContent = this.toCssJustifyContent(node.shapeAlignHorizontal)
-    const alignItems = this.toCssAlignItems(node.shapeAlignVertical)
-    const padding = this.toCssPadding(node.padding)
-
     const containerStyle: React.CSSProperties = {
-      width: '100%',
+      flexShrink: 0,
+      width: containerWidth,
       display: 'flex',
-      justifyContent,
-      alignItems,
-      padding,
+      justifyContent: containerJustifyContent,
+      alignItems: containerAlignItems,
+      padding: containerPadding,
     }
 
     const listItemStyle: React.CSSProperties = {
@@ -481,27 +517,32 @@ class ReactStyleTranspiler {
     return { containerStyle, listItemStyle, iconStyle, primaryTextStyle, secondaryTextStyle }
   }
 
-  frameTranspile = (node: AppV1_Frame) => {
+  frameTranspile = (node: AppV1_Frame, fullWidth?: boolean) => {
+    const px = node.padding[1] + node.padding[3]
+    const containerWidth = fullWidth
+      ? '100%'
+      : this.toCssWidth(node.size.width, node.layoutMode === 'HORIZONTAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode, px)
+    const containerJustifyContent = this.toCssJustifyContent(node.frameAlignHorizontal)
+    const containerAlignItems = this.toCssAlignItems(node.frameAlignVertical)
+    const containerPadding = this.toCssPadding(node.padding)
+
     const width = this.toCssWidth(node.size.width, node.layoutMode === 'HORIZONTAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
     const height = this.toCssHeight(node.size.height, node.layoutMode === 'VERTICAL' ? node.primaryAxisSizingMode : node.counterAxisSizingMode)
     const framePadding = this.toCssPadding(node.frameSpacing)
 
-    const justifyContent = this.toCssJustifyContent(node.frameAlignHorizontal)
-    const alignItems = this.toCssAlignItems(node.frameAlignVertical)
-
     const borderRadius = this.toCssBorderRadius(node.cornerRadius)
     const border = this.toCssBorder(node.stroke, node.strokeWeight)
-    const padding = this.toCssPadding(node.padding)
 
     const frameAlignItems = this.toCssAlignItems(node.primaryAxisAlign)
     const frameAlignContent = this.toCssAlignContent(node.counterAxisDistribute)
 
     const containerStyle: React.CSSProperties = {
-      width: '100%',
+      flexShrink: 0,
+      width: containerWidth,
       display: 'flex',
-      justifyContent,
-      alignItems,
-      padding,
+      justifyContent: containerJustifyContent,
+      alignItems: containerAlignItems,
+      padding: containerPadding,
     }
 
     const frameStyle: React.CSSProperties = {
@@ -517,6 +558,14 @@ class ReactStyleTranspiler {
       backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
       borderRadius,
       border,
+    }
+
+    if (node.layoutMode === 'VERTICAL' && width === 'auto') {
+      frameStyle['width'] = '100%'
+    }
+
+    if (node.layoutMode === 'HORIZONTAL' && width === 'auto') {
+      frameStyle['minWidth'] = '100%'
     }
 
     return { containerStyle, frameStyle }
