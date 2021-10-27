@@ -10,6 +10,7 @@ export type ActionHandler = (action: Action) => Promise<void> | void
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ComponentProps<T = AppV1_NodeMap, U = any, P = any> = {
   node: T
+  fullWidth?: boolean
   actionHandler?: ActionHandler
   paths?: string[]
   screenItemData?: U
@@ -20,11 +21,13 @@ export type ComponentProps<T = AppV1_NodeMap, U = any, P = any> = {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type ListProps<T = AppV1_List, U = { [key: string]: any }> = {
   node: T
+  fullWidth?: boolean
   testItems?: U[]
   renderItem: ({ item }: { item: U }) => React.ReactNode
 }
 
 export type FrameProps<T = AppV1_Frame> = {
   node: T
+  fullWidth?: boolean
   children?: React.ReactNode
 }

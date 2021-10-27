@@ -3,7 +3,7 @@ import { AppV1_List, AppV1_ListItem } from '@funii-inc/funii-assist-types'
 import { ListProps } from '../props'
 import transpiler from '../transpiler'
 
-const List = ({ node, testItems, renderItem }: ListProps<AppV1_List, AppV1_ListItem>) => {
+const List = ({ node, fullWidth = true, testItems, renderItem }: ListProps<AppV1_List, AppV1_ListItem>) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [items, setItems] = useState<any[]>([])
   useEffect(() => {
@@ -24,8 +24,8 @@ const List = ({ node, testItems, renderItem }: ListProps<AppV1_List, AppV1_ListI
   }
 
   return (
-    <div style={transpiler.listTranspile(node).containerStyle}>
-      <div style={transpiler.listTranspile(node).listStyle}>
+    <div style={transpiler.listTranspile(node, fullWidth).containerStyle}>
+      <div style={transpiler.listTranspile(node, fullWidth).listStyle}>
         {items.map((item, index) => (
           <div key={index} style={{ width: '100%' }}>
             {renderItem({ item })}
