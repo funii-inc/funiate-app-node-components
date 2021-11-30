@@ -8,9 +8,9 @@ import Image from './image'
 import Space from './space'
 import Button from './button'
 
-const Component = ({ node, fullWidth = true, actionHandler, paths, children }: ComponentProps) => {
+const Component = ({ node, fullWidth = true, actionHandler, paths, children, databaseTableToolAsset }: ComponentProps) => {
   const NodeTree = useCallback(
-    ({ node, fullWidth = true, actionHandler, paths }: ComponentProps) => {
+    ({ node, fullWidth = true, actionHandler, paths, listItemData, databaseTableToolAsset }: ComponentProps) => {
       switch (node.type) {
         // Layouts
         // -----------------------------
@@ -20,6 +20,7 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children }: C
               node={node}
               fullWidth={fullWidth}
               renderItem={({ item }) => <NodeTree node={node.item} fullWidth={true} actionHandler={actionHandler} paths={paths} listItemData={item} />}
+              databaseTableToolAsset={databaseTableToolAsset}
             />
           )
         }
@@ -47,7 +48,7 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children }: C
           return <Button node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
         }
         case 'LISTITEM': {
-          return <ListItem node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+          return <ListItem node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} listItemData={listItemData} />
         }
 
         default: {
@@ -58,7 +59,7 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children }: C
     [children]
   )
 
-  return <NodeTree node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+  return <NodeTree node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} databaseTableToolAsset={databaseTableToolAsset} />
 }
 
 export default Component

@@ -1,19 +1,34 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppV1_ListItem } from '@funii-inc/funii-assist-types'
+import { AppV1_ListItem, MergedTableRecord, Variable, StorageFile } from '@funii-inc/funii-assist-types'
 import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
-import { calcText } from '../calc'
+import { calcText, calcImages } from '../calc'
 import transpiler from '../transpiler'
 
-const ListItem = ({ node, fullWidth = true, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_ListItem>) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isVariable = (arg: any): arg is Variable => {
+  return arg.type && arg.name && arg.source
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const isStorageFile = (arg: any): arg is StorageFile => {
+  return arg.url !== undefined
+}
+
+const ListItem = ({
+  node,
+  fullWidth = true,
+  actionHandler,
+  paths = [],
+  listItemData,
+}: ComponentProps<AppV1_ListItem, MergedTableRecord, MergedTableRecord>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
   if (!node.visible) {
     return null
   }
-
   return (
     <div style={transpiler.listItemTranspile(node, fullWidth).containerStyle}>
       <BaseListItem
@@ -24,7 +39,31 @@ const ListItem = ({ node, fullWidth = true, actionHandler, paths = [], listItemD
         {node.icon && (
           <>
             <IconWrapper>
-              <div style={transpiler.listItemTranspile(node, fullWidth).iconStyle} />
+              {calcImages(node.icon, { listItemData }).map((img, index) => {
+                if (isStorageFile(img)) {
+                  return (
+                    <div
+                      key={`${index}-${img.url}`}
+                      style={{ ...transpiler.listItemTranspile(node, fullWidth).imageIconStyle, backgroundImage: `url(${img.url})` }}
+                    />
+                  )
+                }
+                if (isVariable(img) && img.type === 'IMAGE' && img.source.selector === 'LIST_ITEM_DATA') {
+                  return (
+                    <div
+                      key={`${index}-${img.url}`}
+                      style={{ ...transpiler.listItemTranspile(node, fullWidth).imageIconStyle, backgroundImage: `url(${img.url})` }}
+                    >
+                      {img.url}
+                    </div>
+                  )
+                }
+                return (
+                  <div key={`${index}-${img.url}`} style={transpiler.listItemTranspile(node, fullWidth).iconStyle}>
+                    <img src={img.url} />
+                  </div>
+                )
+              })}
             </IconWrapper>
             <div style={{ width: 9 }} />
           </>
