@@ -1,23 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { AppV1_List, AppV1_ListItem } from '@funii-inc/funii-assist-types'
+import React, { useMemo } from 'react'
+import { AppV1_List, MergedTableRecord, mergeTableRecord } from '@funii-inc/funii-assist-types'
 import { ListProps } from '../props'
 import transpiler from '../transpiler'
 
-const List = ({ node, fullWidth = true, testItems, renderItem }: ListProps<AppV1_List, AppV1_ListItem>) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [items, setItems] = useState<any[]>([])
-  useEffect(() => {
-    const task = async () => {
-      if (testItems) {
-        setItems(testItems)
-        return
-      }
-      // TODO: fetch
-      console.info(node.data)
-      setItems([])
-    }
-    task()
-  }, [node, testItems])
+type ComponentListProps = Required<ListProps<AppV1_List, MergedTableRecord>> & {
+  tableID: string
+}
+
+const Component = ({ node, tableID, fullWidth = true, renderItem, databaseTableToolAsset }: ComponentListProps) => {
+  const { useTableRecordTools, useTableImageTools, useTableMultiTagTools, useTableTagTools } = databaseTableToolAsset()
+
+  const { tableRecordDictionary } = useTableRecordTools({ tableID })
+  const { tableImageMappings } = useTableImageTools({ tableID })
+  const { tableMultiTagMappings } = useTableMultiTagTools({ tableID })
+  const { tableTagMappings } = useTableTagTools({ tableID })
+
+  const items = useMemo(
+    () =>
+      Object.keys(tableRecordDictionary).map((key) =>
+        mergeTableRecord(tableRecordDictionary[key], tableTagMappings, tableMultiTagMappings, tableImageMappings)
+      ),
+    [tableRecordDictionary, tableTagMappings, tableMultiTagMappings, tableImageMappings]
+  )
+
+  if (!tableRecordDictionary) return null
 
   if (!node.visible) {
     return null
@@ -39,6 +45,13 @@ const List = ({ node, fullWidth = true, testItems, renderItem }: ListProps<AppV1
         ))}
       </div>
     </div>
+  )
+}
+
+const List = ({ node, fullWidth = true, renderItem, databaseTableToolAsset }: ListProps<AppV1_List, MergedTableRecord>) => {
+  if (!node.data?.source.tableID || !databaseTableToolAsset) return <div />
+  return (
+    <Component node={node} tableID={node.data?.source.tableID} fullWidth={fullWidth} renderItem={renderItem} databaseTableToolAsset={databaseTableToolAsset} />
   )
 }
 

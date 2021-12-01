@@ -573,56 +573,174 @@ export const button6: AppV1_Button = {
   actions: [],
 }
 
-export const testItems = [
-  {
-    id: '1',
-    'columnID-1': 'hello',
-    'columnID-2': 'world',
-    'columnID-3': 'hello world!!!',
-  },
-  {
-    id: '2',
-    'columnID-1': 'kurino',
-    'columnID-2': 'kosaku',
-    'columnID-3': 'k.k',
-  },
-  {
-    id: '3',
-    'columnID-1': 'morioka',
-    'columnID-2': 'yuichi',
-    'columnID-3': 'm.y',
-  },
-  {
-    id: '4',
-    'columnID-1': 'aaaaa',
-    'columnID-2': 'bbbbb',
-    'columnID-3': 'ccccc',
-  },
-  {
-    id: '5',
-    'columnID-1': 'hello',
-    'columnID-2': 'world',
-    'columnID-3': 'hello world!!!',
-  },
-  {
-    id: '6',
-    'columnID-1': 'kurino',
-    'columnID-2': 'kosaku',
-    'columnID-3': 'k.k',
-  },
-  {
-    id: '7',
-    'columnID-1': 'morioka',
-    'columnID-2': 'yuichi',
-    'columnID-3': 'm.y',
-  },
-  {
-    id: '8',
-    'columnID-1': 'aaaaa',
-    'columnID-2': 'bbbbb',
-    'columnID-3': 'ccccc',
-  },
-]
+export const testDatabaseTableToolAsset = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const useTableRecordTools = ({ tableID }: { tableID: string }) => {
+    const tableRecordDictionary = {
+      testRecord1: {
+        id: 'testRecord1',
+        tableID: 'table1234',
+        data: {
+          testText1: {
+            type: 'text',
+            value: 'Primary Text 1 Record 1',
+          },
+          testText2: {
+            type: 'text',
+            value: 'Secondary Text 1 Record 1',
+          },
+          testImage1: {
+            type: 'image',
+            value: [
+              {
+                imageID: 'testImageMapping1',
+              },
+            ],
+          },
+          createdAtTimestamp: 1631247380,
+          updatedAtTimestamp: 1631247380,
+          type: 'record',
+        },
+      },
+      testRecord2: {
+        id: 'testRecord2',
+        tableID: 'table1234',
+        data: {
+          testText1: {
+            type: 'text',
+            value: 'Primary Text 1 Record 2',
+          },
+          testText2: {
+            type: 'text',
+            value: 'Secondary Text 1 Record 2',
+          },
+          testImage1: {
+            type: 'image',
+            value: [
+              {
+                imageID: 'testImageMapping2',
+              },
+            ],
+          },
+          createdAtTimestamp: 1631247381,
+          updatedAtTimestamp: 1631247381,
+
+          type: 'record',
+        },
+      },
+    }
+    return { tableRecordDictionary }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const useTableImageTools = ({ tableID }: { tableID: string }) => {
+    const tableImageMappings = {
+      testImageMapping1: {
+        id: 'testImageMapping1',
+        tableID: 'table1234',
+        columnID: 'testImage1',
+        projectID: 'project1234',
+        data: {
+          thumbnailURL: 'https://www.nintendo.co.jp/switch/ampna/material/img/top/bg_pikmin.jpg',
+        },
+        createdAtTimestamp: 1631247380,
+        updatedAtTimestamp: 1631247380,
+        type: 'imageMapping',
+      },
+      testImageMapping2: {
+        id: 'testImageMapping2',
+        tableID: 'table1234',
+        columnID: 'testImage2',
+        projectID: 'project1234',
+        data: {
+          thumbnailURL: 'https://www.nintendo.co.jp/switch/ampna/material/img/top/mv.jpg',
+        },
+        createdAtTimestamp: 1631247381,
+        updatedAtTimestamp: 1631247381,
+        type: 'imageMapping',
+      },
+    }
+    return { tableImageMappings }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const useTableMultiTagTools = ({ tableID }: { tableID: string }) => {
+    const tableMultiTagMappings = {
+      testMultiTagMapping1: {
+        id: 'testMultiTag1',
+        tableID: 'table1234',
+        columnID: 'testMultiTag1',
+        data: {
+          active: true,
+          backgroundColor: '#000000',
+          foregroundColor: '#ffffff',
+          label: 'aaa',
+          tagGroupID: 'testTagGroupID1',
+        },
+        createdAtTimestamp: 1631247380,
+        updatedAtTimestamp: 1631247380,
+        type: 'multiTagMapping',
+      },
+      testMultiTagMapping2: {
+        id: 'testMultiTag2',
+        tableID: 'table1234',
+        columnID: 'testMultiTag2',
+        data: {
+          active: true,
+          backgroundColor: '#000000',
+          foregroundColor: '#ffffff',
+          label: 'bbb',
+          tagGroupID: 'testTagGroupID2',
+        },
+
+        createdAtTimestamp: 1631247382,
+        updatedAtTimestamp: 1631247382,
+        type: 'multiTagMapping',
+      },
+    }
+    return { tableMultiTagMappings }
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const useTableTagTools = ({ tableID }: { tableID: string }) => {
+    const tableTagMappings = {
+      testTag1: {
+        id: 'testTag1',
+        tableID: 'table1234',
+        columnID: 'testColumn1',
+        data: {
+          active: true,
+          backgroundColor: '#000000',
+          foregroundColor: '#ffffff',
+          label: 'aaa',
+          tagGroupID: 'testTagGroupID1',
+        },
+        createdAtTimestamp: 1631247380,
+        updatedAtTimestamp: 1631247380,
+        type: 'tagMapping',
+      },
+      testTag2: {
+        id: 'testTag2',
+        tableID: 'table1234',
+        columnID: 'testColumn2',
+        data: {
+          active: true,
+          backgroundColor: '#000000',
+          foregroundColor: '#ffffff',
+          label: 'bbb',
+          tagGroupID: 'testTagGroupID2',
+        },
+
+        createdAtTimestamp: 1631247382,
+        updatedAtTimestamp: 1631247382,
+        type: 'tagMapping',
+      },
+    }
+    return { tableTagMappings }
+  }
+
+  return { useTableRecordTools, useTableImageTools, useTableMultiTagTools, useTableTagTools }
+}
 
 const listItem1: AppV1_ListItem = {
   id: '1',
@@ -632,15 +750,17 @@ const listItem1: AppV1_ListItem = {
   type: 'LISTITEM',
   shapeHorizontalSpacing: 12,
   shapeVerticalSpacing: 12,
-  icon: null,
+  icon: [
+    { type: 'IMAGE', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'testImage1', selector: 'LIST_ITEM_DATA' } },
+  ],
   primaryText: [
     '',
-    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'columnID-1', selector: 'LIST_ITEM_DATA' } },
+    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'testText1', selector: 'LIST_ITEM_DATA' } },
     '',
   ],
   secondaryText: [
     '',
-    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'columnID-3', selector: 'LIST_ITEM_DATA' } },
+    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'testText1', selector: 'LIST_ITEM_DATA' } },
     '',
   ],
   fills: [],
@@ -687,15 +807,17 @@ const listItem2: AppV1_ListItem = {
   type: 'LISTITEM',
   shapeHorizontalSpacing: 12,
   shapeVerticalSpacing: 12,
-  icon: 'aaaaa',
+  icon: [
+    { type: 'IMAGE', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'testImage1', selector: 'LIST_ITEM_DATA' } },
+  ],
   primaryText: [
     '',
-    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'columnID-1', selector: 'LIST_ITEM_DATA' } },
+    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'testText1', selector: 'LIST_ITEM_DATA' } },
     '',
   ],
   secondaryText: [
     '',
-    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'columnID-2', selector: 'LIST_ITEM_DATA' } },
+    { type: 'TEXT', name: 'Current Data', source: { projectID: 'project1234', tableID: 'table1234', columnID: 'testText1', selector: 'LIST_ITEM_DATA' } },
     '',
   ],
   fills: [],

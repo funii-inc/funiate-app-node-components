@@ -1,4 +1,4 @@
-import { StorageFile, Variable } from '@funii-inc/funii-assist-types'
+import { StorageFile, Variable, MergedTableRecord } from '@funii-inc/funii-assist-types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isVariable = (arg: any): arg is Variable => {
@@ -10,13 +10,8 @@ const isStorageFile = (arg: any): arg is StorageFile => {
   return arg.url !== undefined
 }
 
-type ListItemData = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [key: string]: any
-}
-
 type CalcOption = {
-  listItemData?: ListItemData
+  listItemData?: MergedTableRecord
 }
 
 export const calcText = (text: (string | Variable)[], option?: CalcOption) => {
@@ -25,7 +20,31 @@ export const calcText = (text: (string | Variable)[], option?: CalcOption) => {
       return chunk
     }
     if (isVariable(chunk) && chunk.type === 'TEXT' && chunk.source.selector === 'LIST_ITEM_DATA' && option?.listItemData) {
-      const hit = option.listItemData[chunk.source.columnID]
+      const hit = option.listItemData.data[chunk.source.columnID]
+      if (hit?.type === 'text') {
+        return hit.value
+      }
+
+      if (hit?.type === 'tag') {
+        return hit.value?.label
+      }
+
+      if (hit?.type === 'multi-tag') {
+        return hit.value.map((data) => data?.label).reduce((prev, cur) => `${prev}, ${cur}`)
+      }
+
+      if (hit?.type === 'mask-text') {
+        return hit.value?.token
+      }
+
+      if (hit?.type === 'boolean') {
+        return hit.value
+      }
+
+      if (hit?.type === 'email') {
+        return hit.value
+      }
+
       if (!hit || typeof hit !== 'string') {
         return ''
       }
@@ -39,35 +58,41 @@ export const calcText = (text: (string | Variable)[], option?: CalcOption) => {
 export const calcImages = (images: (StorageFile | Variable)[], option?: CalcOption) => {
   const _calcImage = images.map((chunk) => {
     if (isStorageFile(chunk)) {
-      return {
-        size: chunk.size,
-        url: chunk.url,
-      }
+      return [
+        {
+          size: chunk.size,
+          url: chunk.url,
+        },
+      ]
     }
     if (isVariable(chunk) && chunk.type === 'IMAGE' && chunk.source.selector === 'LIST_ITEM_DATA' && option?.listItemData) {
-      const hit = option?.listItemData[chunk.source.columnID]
-      if (!hit || !hit.url) {
-        return {
-          size: {
-            width: null,
-            height: null,
+      const hit = option?.listItemData.data[chunk.source.columnID]
+      if (!hit || !hit?.value || hit.type !== 'image') {
+        return [
+          {
+            size: {
+              width: null,
+              height: null,
+            },
+            url: null as never as string,
           },
-          url: null,
-        }
+        ]
       }
-      return {
-        size: hit.size,
-        url: hit.url,
-      }
+      return hit.value.map((imageValue) => ({
+        size: imageValue?.size,
+        url: imageValue.thumbnailURL,
+      }))
     }
 
-    return {
-      size: {
-        width: null,
-        height: null,
+    return [
+      {
+        size: {
+          width: null,
+          height: null,
+        },
+        url: null as never as string,
       },
-      url: null,
-    }
+    ]
   })
-  return _calcImage
+  return _calcImage.reduce((prev, curr) => [...prev, ...curr])
 }

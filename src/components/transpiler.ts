@@ -511,10 +511,21 @@ class ReactStyleTranspiler {
       backgroundColor: node.primaryTextStyle.fills.length > 0 ? this.toCssColor(node.primaryTextStyle.fills[0].color) : 'black',
     }
 
+    const imageIconStyle: React.CSSProperties = {
+      width: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
+      height: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
+      fontSize: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
+      // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
+      // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
+      backgroundColor: node.primaryTextStyle.fills.length > 0 ? this.toCssColor(node.primaryTextStyle.fills[0].color) : 'black',
+    }
+
     const primaryTextStyle: React.CSSProperties = this.toCssTextStyle(node.primaryTextStyle)
     const secondaryTextStyle: React.CSSProperties = this.toCssTextStyle(node.secondaryTextStyle)
 
-    return { containerStyle, listItemStyle, iconStyle, primaryTextStyle, secondaryTextStyle }
+    return { containerStyle, listItemStyle, iconStyle, imageIconStyle, primaryTextStyle, secondaryTextStyle }
   }
 
   frameTranspile = (node: AppV1_Frame, fullWidth?: boolean) => {
