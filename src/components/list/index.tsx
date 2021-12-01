@@ -15,15 +15,14 @@ const Component = ({ node, tableID, fullWidth = true, renderItem, databaseTableT
   const { tableMultiTagMappings } = useTableMultiTagTools({ tableID })
   const { tableTagMappings } = useTableTagTools({ tableID })
 
-  const items = useMemo(
-    () =>
-      Object.keys(tableRecordDictionary).map((key) =>
-        mergeTableRecord(tableRecordDictionary[key], tableTagMappings, tableMultiTagMappings, tableImageMappings)
-      ),
-    [tableRecordDictionary, tableTagMappings, tableMultiTagMappings, tableImageMappings]
-  )
+  const items = useMemo(() => {
+    if (!tableRecordDictionary) return
+    return Object.keys(tableRecordDictionary).map((key) =>
+      mergeTableRecord(tableRecordDictionary[key], tableTagMappings, tableMultiTagMappings, tableImageMappings)
+    )
+  }, [tableRecordDictionary, tableTagMappings, tableMultiTagMappings, tableImageMappings])
 
-  if (!tableRecordDictionary) return null
+  if (!items) return null
 
   if (!node.visible) {
     return null
