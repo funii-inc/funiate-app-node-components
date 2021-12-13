@@ -13,15 +13,7 @@ export const typography1: AppV1_Typography = {
   type: 'TYPOGRAPHY',
   text: ['Headline1'],
   textStyle: {
-    fontFamily: null,
-    fontWeight: LIGHT,
-    fontSize: 96,
-    lineHeight: 1.2,
-    letterSpacing: -1.5,
-    lineBreak: 'BREAK',
-    textAlignHorizontal: 'LEFT',
-    textAlignVertical: 'CENTER',
-    fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+    keys: ['headline1'],
   },
   horizontalAxisSizingMode: 'AUTO',
   verticalAxisSizingMode: 'AUTO',
@@ -41,15 +33,7 @@ export const typography2: AppV1_Typography = {
   type: 'TYPOGRAPHY',
   text: ['Headline2'],
   textStyle: {
-    fontFamily: null,
-    fontWeight: LIGHT,
-    fontSize: 60,
-    lineHeight: 1.2,
-    letterSpacing: -0.5,
-    lineBreak: 'BREAK',
-    textAlignHorizontal: 'LEFT',
-    textAlignVertical: 'CENTER',
-    fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+    keys: ['headline2'],
   },
   horizontalAxisSizingMode: 'AUTO',
   verticalAxisSizingMode: 'AUTO',
@@ -69,15 +53,7 @@ export const typography3: AppV1_Typography = {
   type: 'TYPOGRAPHY',
   text: ['Headline3'],
   textStyle: {
-    fontFamily: null,
-    fontWeight: REGULAR,
-    fontSize: 48,
-    lineHeight: 1.2,
-    letterSpacing: 0,
-    lineBreak: 'BREAK',
-    textAlignHorizontal: 'LEFT',
-    textAlignVertical: 'CENTER',
-    fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+    keys: ['headline3'],
   },
   horizontalAxisSizingMode: 'AUTO',
   verticalAxisSizingMode: 'AUTO',
@@ -360,7 +336,7 @@ export const button1: AppV1_Button = {
   shapeHorizontalSpacing: 12,
   shapeVerticalSpacing: 12,
   itemSpacing: 3,
-  fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+  fills: [{ type: 'PALETTE', keys: ['primary', 'main'] }],
   stroke: null,
   strokeWeight: 0,
   shapeAlignHorizontal: 'CENTER',
@@ -382,7 +358,7 @@ export const button1: AppV1_Button = {
 }
 
 export const button2: AppV1_Button = {
-  id: '1',
+  id: '2',
   name: 'ボタン',
   thumbnailURL: null,
   visible: true,
@@ -399,7 +375,7 @@ export const button2: AppV1_Button = {
   shapeHorizontalSpacing: 12,
   shapeVerticalSpacing: 12,
   itemSpacing: 3,
-  fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+  fills: [{ type: 'PALETTE', keys: ['primary', 'main'] }],
   stroke: null,
   strokeWeight: 0,
   shapeAlignHorizontal: 'CENTER',
@@ -421,7 +397,7 @@ export const button2: AppV1_Button = {
 }
 
 export const button3: AppV1_Button = {
-  id: '1',
+  id: '3',
   name: 'ボタン',
   thumbnailURL: null,
   visible: true,
@@ -438,7 +414,7 @@ export const button3: AppV1_Button = {
   shapeHorizontalSpacing: 12,
   shapeVerticalSpacing: 12,
   itemSpacing: 3,
-  fills: [{ type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }],
+  fills: [{ type: 'PALETTE', keys: ['primary', 'main'] }],
   stroke: null,
   strokeWeight: 0,
   shapeAlignHorizontal: 'CENTER',
@@ -460,7 +436,7 @@ export const button3: AppV1_Button = {
 }
 
 export const button4: AppV1_Button = {
-  id: '3',
+  id: '4',
   name: 'ボタン',
   thumbnailURL: null,
   visible: true,
@@ -498,7 +474,7 @@ export const button4: AppV1_Button = {
 }
 
 export const button5: AppV1_Button = {
-  id: '4',
+  id: '5',
   name: 'ボタン',
   thumbnailURL: null,
   visible: true,
@@ -536,7 +512,7 @@ export const button5: AppV1_Button = {
 }
 
 export const button6: AppV1_Button = {
-  id: '5',
+  id: '6',
   name: 'ボタン',
   thumbnailURL: null,
   visible: true,

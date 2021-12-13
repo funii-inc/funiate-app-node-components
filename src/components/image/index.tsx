@@ -7,6 +7,7 @@ import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import transpiler from '../transpiler'
 import { calcImages } from '../calc'
+import defaultTheme from '../defaultTheme'
 
 const DEFAULT_WIDTH = 375
 const DEFAULT_HEIGHT = 375
@@ -23,7 +24,7 @@ const getImageSize = (url: string) => {
   })
 }
 
-const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Image>) => {
+const ImageComponent = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Image>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -78,8 +79,8 @@ const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], lis
   }
 
   return (
-    <div style={transpiler.imageTranspile(node, undefined, fullWidth).containerStyle}>
-      <div style={transpiler.imageTranspile(node, undefined, fullWidth).imagesStyle}>
+    <div style={transpiler.imageTranspile(node, undefined, fullWidth, theme).containerStyle}>
+      <div style={transpiler.imageTranspile(node, undefined, fullWidth, theme).imagesStyle}>
         <CarouselProvider
           naturalSlideWidth={width}
           naturalSlideHeight={height}
@@ -91,7 +92,7 @@ const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], lis
             {images.map((image, index) => (
               <StyledSlide key={index} index={index}>
                 <BaseImage
-                  style={transpiler.imageTranspile(node, image.url, fullWidth).imageStyle}
+                  style={transpiler.imageTranspile(node, image.url, fullWidth, theme).imageStyle}
                   onClick={() => onCall(node.actions)}
                   data-existlink={exist(node.actions)}
                 />

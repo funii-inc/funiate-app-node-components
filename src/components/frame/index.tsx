@@ -3,16 +3,17 @@ import React from 'react'
 import { AppV1_Frame } from '@funii-inc/funii-assist-types'
 import { FrameProps } from '../props'
 import transpiler from '../transpiler'
+import defaultTheme from '../defaultTheme'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Frame = ({ node, fullWidth = true, children }: FrameProps<AppV1_Frame>) => {
+const Frame = ({ node, fullWidth = true, theme = defaultTheme, children }: FrameProps<AppV1_Frame>) => {
   if (!node.visible) {
     return null
   }
 
   return (
-    <div style={transpiler.frameTranspile(node, fullWidth).containerStyle}>
-      <div style={transpiler.frameTranspile(node, fullWidth).frameStyle}>{children}</div>
+    <div style={transpiler.frameTranspile(node, fullWidth, theme).containerStyle}>
+      <div style={transpiler.frameTranspile(node, fullWidth, theme).frameStyle}>{children}</div>
     </div>
   )
 }
