@@ -5,6 +5,7 @@ import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText, calcImages } from '../calc'
 import transpiler from '../transpiler'
+import defaultTheme from '../defaultTheme'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isVariable = (arg: any): arg is Variable => {
@@ -19,6 +20,7 @@ const isStorageFile = (arg: any): arg is StorageFile => {
 const ListItem = ({
   node,
   fullWidth = true,
+  theme = defaultTheme,
   actionHandler,
   paths = [],
   listItemData,
@@ -30,11 +32,11 @@ const ListItem = ({
     return null
   }
   return (
-    <div style={transpiler.listItemTranspile(node, fullWidth).containerStyle}>
+    <div style={transpiler.listItemTranspile(node, fullWidth, theme).containerStyle}>
       <BaseListItem
         data-existlink={exist(node.actions)}
         onClick={() => onCall(node.actions)}
-        style={transpiler.listItemTranspile(node, fullWidth).listItemStyle}
+        style={transpiler.listItemTranspile(node, fullWidth, theme).listItemStyle}
       >
         {node.icon && (
           <>
@@ -44,7 +46,7 @@ const ListItem = ({
                   return (
                     <div
                       key={`${index}-${img.url}`}
-                      style={{ ...transpiler.listItemTranspile(node, fullWidth).imageIconStyle, backgroundImage: `url(${img.url})` }}
+                      style={{ ...transpiler.listItemTranspile(node, fullWidth, theme).imageIconStyle, backgroundImage: `url(${img.url})` }}
                     />
                   )
                 }
@@ -52,14 +54,14 @@ const ListItem = ({
                   return (
                     <div
                       key={`${index}-${img.url}`}
-                      style={{ ...transpiler.listItemTranspile(node, fullWidth).imageIconStyle, backgroundImage: `url(${img.url})` }}
+                      style={{ ...transpiler.listItemTranspile(node, fullWidth, theme).imageIconStyle, backgroundImage: `url(${img.url})` }}
                     >
                       {img.url}
                     </div>
                   )
                 }
                 return (
-                  <div key={`${index}-${img.url}`} style={transpiler.listItemTranspile(node, fullWidth).iconStyle}>
+                  <div key={`${index}-${img.url}`} style={transpiler.listItemTranspile(node, fullWidth, theme).iconStyle}>
                     <img src={img.url} />
                   </div>
                 )
@@ -69,8 +71,8 @@ const ListItem = ({
           </>
         )}
         <ListItemText>
-          <p style={transpiler.listItemTranspile(node, fullWidth).primaryTextStyle}>{calcText(node.primaryText, { listItemData })}</p>
-          <p style={transpiler.listItemTranspile(node, fullWidth).secondaryTextStyle}>{calcText(node.secondaryText, { listItemData })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth, theme).primaryTextStyle}>{calcText(node.primaryText, { listItemData })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth, theme).secondaryTextStyle}>{calcText(node.secondaryText, { listItemData })}</p>
         </ListItemText>
       </BaseListItem>
     </div>

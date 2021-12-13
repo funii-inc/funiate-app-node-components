@@ -7,10 +7,11 @@ import Typography from './typography'
 import Image from './image'
 import Space from './space'
 import Button from './button'
+import defaultTheme from './defaultTheme'
 
-const Component = ({ node, fullWidth = true, actionHandler, paths, children, databaseTableToolAsset }: ComponentProps) => {
+const Component = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths, children, databaseTableToolAsset }: ComponentProps) => {
   const NodeTree = useCallback(
-    ({ node, fullWidth = true, actionHandler, paths, listItemData, databaseTableToolAsset }: ComponentProps) => {
+    ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths, listItemData, databaseTableToolAsset }: ComponentProps) => {
       switch (node.type) {
         // Layouts
         // -----------------------------
@@ -19,14 +20,17 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children, dat
             <List
               node={node}
               fullWidth={fullWidth}
-              renderItem={({ item }) => <NodeTree node={node.item} fullWidth={true} actionHandler={actionHandler} paths={paths} listItemData={item} />}
+              theme={theme}
+              renderItem={({ item }) => (
+                <NodeTree node={node.item} fullWidth={true} theme={theme} actionHandler={actionHandler} paths={paths} listItemData={item} />
+              )}
               databaseTableToolAsset={databaseTableToolAsset}
             />
           )
         }
         case 'FRAME': {
           return (
-            <Frame node={node} fullWidth={fullWidth}>
+            <Frame node={node} fullWidth={fullWidth} theme={theme}>
               {children}
             </Frame>
           )
@@ -35,20 +39,20 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children, dat
         // BasicComponent
         // -----------------------------
         case 'TYPOGRAPHY': {
-          return <Typography node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+          return <Typography node={node} fullWidth={fullWidth} theme={theme} actionHandler={actionHandler} paths={paths} />
         }
         case 'IMAGE': {
-          return <Image node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+          return <Image node={node} fullWidth={fullWidth} theme={theme} actionHandler={actionHandler} paths={paths} />
         }
         // SpaceにfullWidthの概念は不要(containerStyleがないため)
         case 'SPACE': {
-          return <Space node={node} actionHandler={actionHandler} paths={paths} />
+          return <Space node={node} theme={theme} actionHandler={actionHandler} paths={paths} />
         }
         case 'BUTTON': {
-          return <Button node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+          return <Button node={node} fullWidth={fullWidth} theme={theme} actionHandler={actionHandler} paths={paths} />
         }
         case 'LISTITEM': {
-          return <ListItem node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} listItemData={listItemData} />
+          return <ListItem node={node} fullWidth={fullWidth} theme={theme} actionHandler={actionHandler} paths={paths} listItemData={listItemData} />
         }
 
         default: {
@@ -59,7 +63,9 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children, dat
     [children]
   )
 
-  return <NodeTree node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} databaseTableToolAsset={databaseTableToolAsset} />
+  return (
+    <NodeTree node={node} fullWidth={fullWidth} theme={theme} actionHandler={actionHandler} paths={paths} databaseTableToolAsset={databaseTableToolAsset} />
+  )
 }
 
 export default Component
