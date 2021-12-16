@@ -1,0 +1,26 @@
+import { ThemeProps, SolidPaint, PlainTextStyle } from '@funii-inc/funii-assist-types';
+export declare const whitePaint: SolidPaint;
+export declare const primaryPaint: SolidPaint;
+export declare const warningPaint: SolidPaint;
+export declare const errorPaint: SolidPaint;
+export declare const successPaint: SolidPaint;
+export declare const textPrimaryPaint: SolidPaint;
+export declare const LIGHT = 300;
+export declare const REGULAR = 400;
+export declare const MEDIUM = 500;
+export declare const headline1: PlainTextStyle;
+export declare const headline2: PlainTextStyle;
+export declare const headline3: PlainTextStyle;
+export declare const headline4: PlainTextStyle;
+export declare const headline5: PlainTextStyle;
+export declare const headline6: PlainTextStyle;
+export declare const subtitle1: PlainTextStyle;
+export declare const subtitle2: PlainTextStyle;
+export declare const body1: PlainTextStyle;
+export declare const body2: PlainTextStyle;
+export declare const button: PlainTextStyle;
+export declare const caption: PlainTextStyle;
+export declare const overline: PlainTextStyle;
+export declare const defaultTheme: ThemeProps;
+export default defaultTheme;
+//# sourceMappingURL=defaultTheme.d.ts.map
