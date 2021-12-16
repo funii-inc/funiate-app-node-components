@@ -2,12 +2,13 @@ import React, { useMemo } from 'react'
 import { AppV1_List, MergedTableRecord, mergeTableRecord } from '@funii-inc/funii-assist-types'
 import { ListProps } from '../props'
 import transpiler from '../transpiler'
+import defaultTheme from '../defaultTheme'
 
 type ComponentListProps = Required<ListProps<AppV1_List, MergedTableRecord>> & {
   tableID: string
 }
 
-const Component = ({ node, tableID, fullWidth = true, renderItem, databaseTableToolAsset }: ComponentListProps) => {
+const Component = ({ node, tableID, fullWidth = true, theme = defaultTheme, renderItem, databaseTableToolAsset }: ComponentListProps) => {
   const { useTableRecordTools, useTableImageTools, useTableMultiTagTools, useTableTagTools } = databaseTableToolAsset()
 
   const { tableRecordDictionary } = useTableRecordTools({ tableID })
@@ -29,8 +30,8 @@ const Component = ({ node, tableID, fullWidth = true, renderItem, databaseTableT
   }
 
   return (
-    <div style={transpiler.listTranspile(node, fullWidth).containerStyle}>
-      <div style={transpiler.listTranspile(node, fullWidth).listStyle}>
+    <div style={transpiler.listTranspile(node, fullWidth, theme).containerStyle}>
+      <div style={transpiler.listTranspile(node, fullWidth, theme).listStyle}>
         {items.map((item, index) => (
           <div key={index} style={{ width: '100%' }}>
             {renderItem({ item })}
@@ -47,10 +48,18 @@ const Component = ({ node, tableID, fullWidth = true, renderItem, databaseTableT
   )
 }
 
-const List = ({ node, fullWidth = true, renderItem, databaseTableToolAsset }: ListProps<AppV1_List, MergedTableRecord>) => {
-  if (!node.data?.source.tableID || !databaseTableToolAsset) return <div />
+const List = ({ node, fullWidth = true, theme = defaultTheme, renderItem, databaseTableToolAsset }: ListProps<AppV1_List, MergedTableRecord>) => {
+  if (!node.data?.source.tableID || !databaseTableToolAsset) return null
+
   return (
-    <Component node={node} tableID={node.data?.source.tableID} fullWidth={fullWidth} renderItem={renderItem} databaseTableToolAsset={databaseTableToolAsset} />
+    <Component
+      node={node}
+      tableID={node.data?.source.tableID}
+      fullWidth={fullWidth}
+      theme={theme}
+      renderItem={renderItem}
+      databaseTableToolAsset={databaseTableToolAsset}
+    />
   )
 }
 

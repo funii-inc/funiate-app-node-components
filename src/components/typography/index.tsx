@@ -5,8 +5,9 @@ import { ComponentProps } from '../props'
 import transpiler from '../transpiler'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText } from '../calc'
+import defaultTheme from '../defaultTheme'
 
-const Typography = ({ node, fullWidth = true, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Typography>) => {
+const Typography = ({ node, theme = defaultTheme, fullWidth = true, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Typography>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -15,10 +16,10 @@ const Typography = ({ node, fullWidth = true, actionHandler, paths = [], mergedT
   }
 
   return (
-    <div style={transpiler.typographyTranspile(node, fullWidth).containerStyle}>
+    <div style={transpiler.typographyTranspile(node, fullWidth, theme).containerStyle}>
       <BaseTypography
         data-existlink={exist(node.actions)}
-        style={transpiler.typographyTranspile(node, fullWidth).typographyStyle}
+        style={transpiler.typographyTranspile(node, fullWidth, theme).typographyStyle}
         onClick={() => onCall(node.actions)}
       >
         {/* FIXME: Variableを実装したらjoin周りのロジック修正 */}

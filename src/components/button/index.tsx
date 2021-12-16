@@ -5,8 +5,9 @@ import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import transpiler from '../transpiler'
 import { calcText } from '../calc'
+import defaultTheme from '../defaultTheme'
 
-const Button = ({ node, fullWidth = true, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Button>) => {
+const Button = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Button>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -15,11 +16,15 @@ const Button = ({ node, fullWidth = true, actionHandler, paths = [], mergedTable
   }
 
   return (
-    <div style={transpiler.buttonTranspile(node, fullWidth).containerStyle}>
-      <BaseButton data-existlink={exist(node.actions)} onClick={() => onCall(node.actions)} style={transpiler.buttonTranspile(node, fullWidth).buttonStyle}>
-        {node.icon && <div style={transpiler.buttonTranspile(node, fullWidth).iconStyle} />}
-        {node.icon && mergedTableRecord && calcText(node.text, { mergedTableRecord }).length > 0 && <div style={{ width: node.itemSpacing }} />}
-        <Typography style={transpiler.buttonTranspile(node, fullWidth).typographyStyle}>{calcText(node.text, { mergedTableRecord })}</Typography>
+    <div style={transpiler.buttonTranspile(node, fullWidth, theme).containerStyle}>
+      <BaseButton
+        data-existlink={exist(node.actions)}
+        onClick={() => onCall(node.actions)}
+        style={transpiler.buttonTranspile(node, fullWidth, theme).buttonStyle}
+      >
+        {node.icon && <div style={transpiler.buttonTranspile(node, fullWidth, theme).iconStyle} />}
+        {node.icon && calcText(node.text, { mergedTableRecord }).length > 0 && <div style={{ width: node.itemSpacing }} />}
+        <Typography style={transpiler.buttonTranspile(node, fullWidth, theme).typographyStyle}>{calcText(node.text, { mergedTableRecord })}</Typography>
       </BaseButton>
     </div>
   )

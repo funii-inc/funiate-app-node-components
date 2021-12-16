@@ -5,6 +5,7 @@ import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText, calcImages } from '../calc'
 import transpiler from '../transpiler'
+import defaultTheme from '../defaultTheme'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isVariable = (arg: any): arg is Variable => {
@@ -16,7 +17,7 @@ const isStorageFile = (arg: any): arg is StorageFile => {
   return arg.url !== undefined
 }
 
-const ListItem = ({ node, fullWidth = true, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_ListItem>) => {
+const ListItem = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_ListItem>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -37,11 +38,11 @@ const ListItem = ({ node, fullWidth = true, actionHandler, paths = [], mergedTab
     return null
   }
   return (
-    <div style={transpiler.listItemTranspile(node, fullWidth).containerStyle}>
+    <div style={transpiler.listItemTranspile(node, fullWidth, theme).containerStyle}>
       <BaseListItem
         data-existlink={exist(addedRecordIDActions)}
         onClick={() => onCall(addedRecordIDActions)}
-        style={transpiler.listItemTranspile(node, fullWidth).listItemStyle}
+        style={transpiler.listItemTranspile(node, fullWidth, theme).listItemStyle}
       >
         {node.icon && (
           <>
@@ -51,7 +52,7 @@ const ListItem = ({ node, fullWidth = true, actionHandler, paths = [], mergedTab
                   return (
                     <div
                       key={`${index}-${img.url}`}
-                      style={{ ...transpiler.listItemTranspile(node, fullWidth).imageIconStyle, backgroundImage: `url(${img.url})` }}
+                      style={{ ...transpiler.listItemTranspile(node, fullWidth, theme).imageIconStyle, backgroundImage: `url(${img.url})` }}
                     />
                   )
                 }
@@ -64,7 +65,7 @@ const ListItem = ({ node, fullWidth = true, actionHandler, paths = [], mergedTab
                   )
                 }
                 return (
-                  <div key={`${index}-${img.url}`} style={transpiler.listItemTranspile(node, fullWidth).iconStyle}>
+                  <div key={`${index}-${img.url}`} style={transpiler.listItemTranspile(node, fullWidth, theme).iconStyle}>
                     <img src={img.url} />
                   </div>
                 )
