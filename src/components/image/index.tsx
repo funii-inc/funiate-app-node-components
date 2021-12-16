@@ -23,7 +23,7 @@ const getImageSize = (url: string) => {
   })
 }
 
-const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Image>) => {
+const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Image>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -31,8 +31,8 @@ const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], lis
   const [height, setHeight] = useState<number | null>(null)
 
   const images = useMemo(() => {
-    return calcImages(node.images, { listItemData }).filter((item) => item.url)
-  }, [listItemData, node.images])
+    return calcImages(node.images, { mergedTableRecord }).filter((item) => item.url)
+  }, [mergedTableRecord, node.images])
 
   useEffect(() => {
     const task = async () => {
@@ -91,7 +91,7 @@ const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], lis
             {images.map((image, index) => (
               <StyledSlide key={index} index={index}>
                 <BaseImage
-                  style={transpiler.imageTranspile(node, image.url, fullWidth).imageStyle}
+                  style={{ ...transpiler.imageTranspile(node, image.url, fullWidth).imageStyle, backgroundImage: `url(${image.url})` }}
                   onClick={() => onCall(node.actions)}
                   data-existlink={exist(node.actions)}
                 />
@@ -107,6 +107,8 @@ const ImageComponent = ({ node, fullWidth = true, actionHandler, paths = [], lis
 }
 
 const BaseImage = styled.div`
+  width: 300;
+  height: 300;
   &[data-existlink='true'] {
     cursor: pointer;
   }

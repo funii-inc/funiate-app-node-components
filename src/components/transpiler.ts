@@ -16,6 +16,7 @@ import {
   SizingMode,
   SolidPaint,
   TextStyle,
+  PlainTextStyle,
 } from '@funii-inc/funii-assist-types'
 
 class ReactStyleTranspiler {
@@ -214,26 +215,31 @@ class ReactStyleTranspiler {
   }
 
   toCssTextStyle = (textStyle: TextStyle) => {
-    const textAlign = this.toCssTextAlign(textStyle.textAlignHorizontal)
-    const verticalAlign = this.toCssVerticalAlign(textStyle.textAlignVertical)
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
+    const textAlign = this.toCssTextAlign((textStyle as PlainTextStyle).textAlignHorizontal)
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
+    const verticalAlign = this.toCssVerticalAlign((textStyle as PlainTextStyle).textAlignVertical)
 
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
     const style: React.CSSProperties = {
-      fontFamily: textStyle.fontFamily ?? undefined,
-      fontWeight: textStyle.fontWeight,
-      fontSize: `${textStyle.fontSize / this.pxUnit}rem`,
-      lineHeight: textStyle.lineHeight,
-      letterSpacing: textStyle.letterSpacing,
+      fontFamily: (textStyle as PlainTextStyle).fontFamily ?? undefined,
+      fontWeight: (textStyle as PlainTextStyle).fontWeight,
+      fontSize: `${(textStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
+      lineHeight: (textStyle as PlainTextStyle).lineHeight,
+      letterSpacing: (textStyle as PlainTextStyle).letterSpacing,
       textAlign,
       verticalAlign,
-      color: textStyle.fills.length > 0 ? this.toCssColor(textStyle.fills[0].color) : 'black',
+      color: (textStyle as PlainTextStyle).fills.length > 0 ? this.toCssColor((textStyle as PlainTextStyle).fills[0].color) : 'black',
       wordBreak: 'break-word', // MEMO: ここの制御をどうするか考えないといけない
     }
 
-    if (textStyle.lineBreak === 'BREAK') {
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
+    if ((textStyle as PlainTextStyle).lineBreak === 'BREAK') {
       style['wordBreak'] = 'break-all'
     }
 
-    if (textStyle.lineBreak === 'NO_BREAK') {
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
+    if ((textStyle as PlainTextStyle).lineBreak === 'NO_BREAK') {
       style['whiteSpace'] = 'nowrap'
     }
 
@@ -326,7 +332,8 @@ class ReactStyleTranspiler {
       height: '100%', // 高さはcontainerに任せる
       overflow: 'hidden',
       borderRadius,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'transparent', //node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
     }
 
     // MEMO: 幅が%だとflexでの制御ができないのでmarginで制御している。(position(relative - absolute)を利用しているので消える)
@@ -371,12 +378,15 @@ class ReactStyleTranspiler {
 
     const buttonWidth = this.toCssWidth(node.size.width, node.horizontalAxisSizingMode)
     const buttonHeight = this.toCssHeight(node.size.height, node.verticalAxisSizingMode)
-    const buttonTextJustifyContent = this.toCssJustifyContent(node.textStyle.textAlignHorizontal)
-    const buttonTextAlignItem = this.toCssAlignItems(node.textStyle.textAlignVertical)
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
+    const buttonTextJustifyContent = this.toCssJustifyContent((node.textStyle as PlainTextStyle).textAlignHorizontal)
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
+    const buttonTextAlignItem = this.toCssAlignItems((node.textStyle as PlainTextStyle).textAlignVertical)
     const buttonPx = `${node.shapeHorizontalSpacing / this.pxUnit}rem` // FIXME: AxisSizingModeがFIXEDで幅が小さい時の対応どうするか考えないといけない
     const buttonPy = `${node.shapeVerticalSpacing / this.pxUnit}rem` // FIXME: AxisSizingModeがFIXEDで幅が小さい時の対応どうするか考えないといけない
     const buttonBorderRadius = this.toCssBorderRadius(node.cornerRadius)
-    const buttonBorder = this.toCssBorder(node.stroke, node.strokeWeight)
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　SolidPaint　の型を当てはめています。
+    const buttonBorder = this.toCssBorder(node.stroke as SolidPaint, node.strokeWeight)
 
     const containerStyle: React.CSSProperties = {
       flexShrink: 0,
@@ -399,16 +409,20 @@ class ReactStyleTranspiler {
       padding: `${buttonPy} ${buttonPx}`,
       borderRadius: buttonBorderRadius,
       border: buttonBorder,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'black',
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'black', //node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'black',
     }
 
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
     const iconStyle: React.CSSProperties = {
-      width: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      height: `${node.textStyle.fontSize / this.pxUnit}rem`,
-      fontSize: `${node.textStyle.fontSize / this.pxUnit}rem`,
+      width: `${(node.textStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
+      height: `${(node.textStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
+      fontSize: `${(node.textStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: node.textStyle.fills.length > 0 ? this.toCssColor(node.textStyle.fills[0].color) : 'black',
+
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'black', // node.textStyle.fills.length > 0 ? this.toCssColor(node.textStyle.fills[0].color) : 'black',
     }
 
     const typographyStyle: React.CSSProperties = {
@@ -435,7 +449,8 @@ class ReactStyleTranspiler {
     const listPadding = this.toCssPadding(node.listSpacing)
 
     const borderRadius = this.toCssBorderRadius(node.cornerRadius)
-    const border = this.toCssBorder(node.stroke, node.strokeWeight)
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　SolidPaint　の型を当てはめています。
+    const border = this.toCssBorder(node.stroke as SolidPaint, node.strokeWeight)
 
     const listAlignItems = this.toCssAlignItems(node.primaryAxisAlign)
     const listAlignContent = this.toCssAlignContent(node.counterAxisDistribute)
@@ -459,7 +474,8 @@ class ReactStyleTranspiler {
       width,
       height,
       padding: listPadding,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'transparent', //node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
       borderRadius,
       border,
     }
@@ -498,28 +514,35 @@ class ReactStyleTranspiler {
       width,
       height,
       padding: `${itemPaddingVertical} ${itemPaddingHorizontal}`,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'transparent', //node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
       borderRadius,
     }
 
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
     const iconStyle: React.CSSProperties = {
-      width: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
-      height: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
-      fontSize: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
+      width: `${(node.primaryTextStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
+      height: `${(node.primaryTextStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
+      fontSize: `${(node.primaryTextStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: node.primaryTextStyle.fills.length > 0 ? this.toCssColor(node.primaryTextStyle.fills[0].color) : 'black',
+
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'black', //node.primaryTextStyle.fills.length > 0 ? this.toCssColor(node.primaryTextStyle.fills[0].color) : 'black',
     }
 
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
     const imageIconStyle: React.CSSProperties = {
-      width: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
-      height: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
-      fontSize: `${node.primaryTextStyle.fontSize / this.pxUnit}rem`,
+      width: `${(node.primaryTextStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
+      height: `${(node.primaryTextStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
+      fontSize: `${(node.primaryTextStyle as PlainTextStyle).fontSize / this.pxUnit}rem`,
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: node.primaryTextStyle.fills.length > 0 ? this.toCssColor(node.primaryTextStyle.fills[0].color) : 'black',
+
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'black', // node.primaryTextStyle.fills.length > 0 ? this.toCssColor(node.primaryTextStyle.fills[0].color) : 'black',
     }
 
     const primaryTextStyle: React.CSSProperties = this.toCssTextStyle(node.primaryTextStyle)
@@ -542,7 +565,9 @@ class ReactStyleTranspiler {
     const framePadding = this.toCssPadding(node.frameSpacing)
 
     const borderRadius = this.toCssBorderRadius(node.cornerRadius)
-    const border = this.toCssBorder(node.stroke, node.strokeWeight)
+
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　SolidPaint　の型を当てはめています。
+    const border = this.toCssBorder(node.stroke as SolidPaint, node.strokeWeight)
 
     const frameAlignItems = this.toCssAlignItems(node.primaryAxisAlign)
     const frameAlignContent = this.toCssAlignContent(node.counterAxisDistribute)
@@ -566,7 +591,8 @@ class ReactStyleTranspiler {
       width,
       height,
       padding: framePadding,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
+      //MEMO: 2021/12/13 新しいテーマ設定の型と競合しており、エラー回避のためコメントアウトしています。
+      backgroundColor: 'transparent', //node.fills.length > 0 ? this.toCssColor(node.fills[0].color) : 'transparent',
       borderRadius,
       border,
     }

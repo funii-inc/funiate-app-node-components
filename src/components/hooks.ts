@@ -25,7 +25,7 @@ export const useExistValidActions = (paths: string[]) => {
       actions.forEach((action) => {
         if (action.type === 'INTERNAL_LINK') {
           // FIXME: Variableを実装したらjoin周りのロジック修正
-          if (paths.includes(action.value.join(''))) {
+          if (paths.includes(action.value.navigationValue.join(''))) {
             isExist = true
           }
         } else if (action.type === 'EXTERNAL_LINK') {

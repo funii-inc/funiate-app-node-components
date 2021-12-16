@@ -6,7 +6,7 @@ import transpiler from '../transpiler'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText } from '../calc'
 
-const Typography = ({ node, fullWidth = true, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Typography>) => {
+const Typography = ({ node, fullWidth = true, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Typography>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -22,7 +22,7 @@ const Typography = ({ node, fullWidth = true, actionHandler, paths = [], listIte
         onClick={() => onCall(node.actions)}
       >
         {/* FIXME: Variableを実装したらjoin周りのロジック修正 */}
-        {calcText(node.text, { listItemData })}
+        {calcText(node.text, { mergedTableRecord })}
       </BaseTypography>
     </div>
   )

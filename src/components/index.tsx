@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react'
+// import { ComponentProps as OriginalComponentProps } from './props'
 import { ComponentProps } from './props'
 import Frame from './frame'
 import List from './list'
@@ -8,9 +9,9 @@ import Image from './image'
 import Space from './space'
 import Button from './button'
 
-const Component = ({ node, fullWidth = true, actionHandler, paths, children, databaseTableToolAsset }: ComponentProps) => {
+const Component = ({ node, fullWidth = true, actionHandler, paths, children, databaseTableToolAsset, mergedTableRecord = null }: ComponentProps) => {
   const NodeTree = useCallback(
-    ({ node, fullWidth = true, actionHandler, paths, listItemData, databaseTableToolAsset }: ComponentProps) => {
+    ({ node, fullWidth = true, actionHandler, paths, mergedTableRecord, databaseTableToolAsset }: ComponentProps) => {
       switch (node.type) {
         // Layouts
         // -----------------------------
@@ -19,7 +20,7 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children, dat
             <List
               node={node}
               fullWidth={fullWidth}
-              renderItem={({ item }) => <NodeTree node={node.item} fullWidth={true} actionHandler={actionHandler} paths={paths} listItemData={item} />}
+              renderItem={({ item }) => <NodeTree node={node.item} fullWidth={true} actionHandler={actionHandler} paths={paths} mergedTableRecord={item} />}
               databaseTableToolAsset={databaseTableToolAsset}
             />
           )
@@ -35,20 +36,20 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children, dat
         // BasicComponent
         // -----------------------------
         case 'TYPOGRAPHY': {
-          return <Typography node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+          return <Typography node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} mergedTableRecord={mergedTableRecord} />
         }
         case 'IMAGE': {
-          return <Image node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+          return <Image node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} mergedTableRecord={mergedTableRecord} />
         }
         // SpaceにfullWidthの概念は不要(containerStyleがないため)
         case 'SPACE': {
-          return <Space node={node} actionHandler={actionHandler} paths={paths} />
+          return <Space node={node} actionHandler={actionHandler} paths={paths} mergedTableRecord={mergedTableRecord} />
         }
         case 'BUTTON': {
-          return <Button node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} />
+          return <Button node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} mergedTableRecord={mergedTableRecord} />
         }
         case 'LISTITEM': {
-          return <ListItem node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} listItemData={listItemData} />
+          return <ListItem node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} mergedTableRecord={mergedTableRecord} />
         }
 
         default: {
@@ -59,7 +60,16 @@ const Component = ({ node, fullWidth = true, actionHandler, paths, children, dat
     [children]
   )
 
-  return <NodeTree node={node} fullWidth={fullWidth} actionHandler={actionHandler} paths={paths} databaseTableToolAsset={databaseTableToolAsset} />
+  return (
+    <NodeTree
+      node={node}
+      fullWidth={fullWidth}
+      actionHandler={actionHandler}
+      paths={paths}
+      databaseTableToolAsset={databaseTableToolAsset}
+      mergedTableRecord={mergedTableRecord}
+    />
+  )
 }
 
 export default Component

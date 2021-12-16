@@ -11,7 +11,8 @@ const isStorageFile = (arg: any): arg is StorageFile => {
 }
 
 type CalcOption = {
-  listItemData?: MergedTableRecord
+  mergedTableRecord?: MergedTableRecord | null
+  recordID?: string
 }
 
 export const calcText = (text: (string | Variable)[], option?: CalcOption) => {
@@ -19,8 +20,8 @@ export const calcText = (text: (string | Variable)[], option?: CalcOption) => {
     if (typeof chunk === 'string') {
       return chunk
     }
-    if (isVariable(chunk) && chunk.type === 'TEXT' && chunk.source.selector === 'LIST_ITEM_DATA' && option?.listItemData) {
-      const hit = option.listItemData.data[chunk.source.columnID]
+    if (isVariable(chunk) && chunk.type === 'TEXT' && option?.mergedTableRecord) {
+      const hit = option.mergedTableRecord.data[chunk.source.columnID]
       if (hit?.type === 'text') {
         return hit.value
       }
@@ -65,8 +66,9 @@ export const calcImages = (images: (StorageFile | Variable)[], option?: CalcOpti
         },
       ]
     }
-    if (isVariable(chunk) && chunk.type === 'IMAGE' && chunk.source.selector === 'LIST_ITEM_DATA' && option?.listItemData) {
-      const hit = option?.listItemData.data[chunk.source.columnID]
+    if (isVariable(chunk) && chunk.type === 'IMAGE' && option?.mergedTableRecord) {
+      const hit = option?.mergedTableRecord.data[chunk.source.columnID]
+
       if (!hit || !hit?.value || hit.type !== 'image') {
         return [
           {
