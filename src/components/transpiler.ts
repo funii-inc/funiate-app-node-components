@@ -454,6 +454,7 @@ class ReactStyleTranspiler {
       backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0]).color) : 'black',
     }
 
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
     const iconStyle: React.CSSProperties = {
       width: `${calcTextStyle.fontSize / this.pxUnit}rem`,
       height: `${calcTextStyle.fontSize / this.pxUnit}rem`,
@@ -556,6 +557,7 @@ class ReactStyleTranspiler {
       borderRadius,
     }
 
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
     const iconStyle: React.CSSProperties = {
       width: `${calcPrimaryTextStyle.fontSize / this.pxUnit}rem`,
       height: `${calcPrimaryTextStyle.fontSize / this.pxUnit}rem`,
@@ -565,6 +567,7 @@ class ReactStyleTranspiler {
       backgroundColor: calcPrimaryTextStyle.fills.length > 0 ? this.toCssColor(calcPrimaryTextStyle.fills[0].color) : 'black',
     }
 
+    //MEMO: 2021/12/13 textStyleの部分で、新しいテーマ設定の型と競合しており、エラー回避のため無理矢理　PlainTextStyle　の型を当てはめています。
     const imageIconStyle: React.CSSProperties = {
       width: `${calcPrimaryTextStyle.fontSize / this.pxUnit}rem`,
       height: `${calcPrimaryTextStyle.fontSize / this.pxUnit}rem`,

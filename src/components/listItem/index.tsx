@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppV1_ListItem, MergedTableRecord, Variable, StorageFile } from '@funii-inc/funii-assist-types'
+import { AppV1_ListItem, Variable, StorageFile, InterNalLinkAction } from '@funii-inc/funii-assist-types'
 import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText, calcImages } from '../calc'
@@ -17,16 +17,22 @@ const isStorageFile = (arg: any): arg is StorageFile => {
   return arg.url !== undefined
 }
 
-const ListItem = ({
-  node,
-  fullWidth = true,
-  theme = defaultTheme,
-  actionHandler,
-  paths = [],
-  listItemData,
-}: ComponentProps<AppV1_ListItem, MergedTableRecord, MergedTableRecord>) => {
+const ListItem = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_ListItem>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
+
+  const addedRecordIDActions = node.actions.map((action) => {
+    if (action.type === 'INTERNAL_LINK' && mergedTableRecord) {
+      return {
+        ...action,
+        data: {
+          ...(action as InterNalLinkAction).data,
+          recordID: mergedTableRecord.id,
+        },
+      } as InterNalLinkAction
+    }
+    return action
+  })
 
   if (!node.visible) {
     return null
@@ -34,14 +40,14 @@ const ListItem = ({
   return (
     <div style={transpiler.listItemTranspile(node, fullWidth, theme).containerStyle}>
       <BaseListItem
-        data-existlink={exist(node.actions)}
-        onClick={() => onCall(node.actions)}
+        data-existlink={exist(addedRecordIDActions)}
+        onClick={() => onCall(addedRecordIDActions)}
         style={transpiler.listItemTranspile(node, fullWidth, theme).listItemStyle}
       >
         {node.icon && (
           <>
             <IconWrapper>
-              {calcImages(node.icon, { listItemData }).map((img, index) => {
+              {calcImages(node.icon, { mergedTableRecord: mergedTableRecord }).map((img, index) => {
                 if (isStorageFile(img)) {
                   return (
                     <div
@@ -54,10 +60,8 @@ const ListItem = ({
                   return (
                     <div
                       key={`${index}-${img.url}`}
-                      style={{ ...transpiler.listItemTranspile(node, fullWidth, theme).imageIconStyle, backgroundImage: `url(${img.url})` }}
-                    >
-                      {img.url}
-                    </div>
+                      style={{ ...transpiler.listItemTranspile(node, fullWidth).imageIconStyle, backgroundImage: `url(${img.url})` }}
+                    />
                   )
                 }
                 return (
@@ -71,8 +75,8 @@ const ListItem = ({
           </>
         )}
         <ListItemText>
-          <p style={transpiler.listItemTranspile(node, fullWidth, theme).primaryTextStyle}>{calcText(node.primaryText, { listItemData })}</p>
-          <p style={transpiler.listItemTranspile(node, fullWidth, theme).secondaryTextStyle}>{calcText(node.secondaryText, { listItemData })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth).primaryTextStyle}>{calcText(node.primaryText, { mergedTableRecord })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth).secondaryTextStyle}>{calcText(node.secondaryText, { mergedTableRecord })}</p>
         </ListItemText>
       </BaseListItem>
     </div>

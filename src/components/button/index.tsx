@@ -7,7 +7,7 @@ import transpiler from '../transpiler'
 import { calcText } from '../calc'
 import defaultTheme from '../defaultTheme'
 
-const Button = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], listItemData }: ComponentProps<AppV1_Button>) => {
+const Button = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Button>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -23,8 +23,8 @@ const Button = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, p
         style={transpiler.buttonTranspile(node, fullWidth, theme).buttonStyle}
       >
         {node.icon && <div style={transpiler.buttonTranspile(node, fullWidth, theme).iconStyle} />}
-        {node.icon && calcText(node.text, { listItemData }).length > 0 && <div style={{ width: node.itemSpacing }} />}
-        <Typography style={transpiler.buttonTranspile(node, fullWidth, theme).typographyStyle}>{calcText(node.text, { listItemData })}</Typography>
+        {node.icon && calcText(node.text, { mergedTableRecord }).length > 0 && <div style={{ width: node.itemSpacing }} />}
+        <Typography style={transpiler.buttonTranspile(node, fullWidth, theme).typographyStyle}>{calcText(node.text, { mergedTableRecord })}</Typography>
       </BaseButton>
     </div>
   )
