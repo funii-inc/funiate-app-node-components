@@ -1,5 +1,4 @@
 import React, { useCallback } from 'react'
-// import { ComponentProps as OriginalComponentProps } from './props'
 import { ComponentProps } from './props'
 import Frame from './frame'
 import List from './list'
