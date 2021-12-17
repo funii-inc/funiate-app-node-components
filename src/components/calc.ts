@@ -75,7 +75,7 @@ export const calcImages = (images: (StorageFile | Variable)[], option?: CalcOpti
               width: null,
               height: null,
             },
-            url: (null as never) as string,
+            url: null as never as string,
           },
         ]
       }
@@ -91,7 +91,7 @@ export const calcImages = (images: (StorageFile | Variable)[], option?: CalcOpti
           width: null,
           height: null,
         },
-        url: (null as never) as string,
+        url: null as never as string,
       },
     ]
   })
