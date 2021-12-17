@@ -17,17 +17,17 @@ const isStorageFile = (arg: any): arg is StorageFile => {
   return arg.url !== undefined
 }
 
-const ListItem = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_ListItem>) => {
+const ListItem = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], data }: ComponentProps<AppV1_ListItem>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
   const addedRecordIDActions = node.actions.map((action) => {
-    if (action.type === 'INTERNAL_LINK' && mergedTableRecord) {
+    if (action.type === 'INTERNAL_LINK' && data) {
       return {
         ...action,
         data: {
           ...(action as InterNalLinkAction).data,
-          recordID: mergedTableRecord.id,
+          recordID: data.id,
         },
       } as InterNalLinkAction
     }
@@ -47,7 +47,7 @@ const ListItem = ({ node, fullWidth = true, theme = defaultTheme, actionHandler,
         {node.icon && (
           <>
             <IconWrapper>
-              {calcImages(node.icon, { mergedTableRecord: mergedTableRecord }).map((img, index) => {
+              {calcImages(node.icon, { data }).map((img, index) => {
                 if (isStorageFile(img)) {
                   return (
                     <div
@@ -75,8 +75,8 @@ const ListItem = ({ node, fullWidth = true, theme = defaultTheme, actionHandler,
           </>
         )}
         <ListItemText>
-          <p style={transpiler.listItemTranspile(node, fullWidth).primaryTextStyle}>{calcText(node.primaryText, { mergedTableRecord })}</p>
-          <p style={transpiler.listItemTranspile(node, fullWidth).secondaryTextStyle}>{calcText(node.secondaryText, { mergedTableRecord })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth).primaryTextStyle}>{calcText(node.primaryText, { data })}</p>
+          <p style={transpiler.listItemTranspile(node, fullWidth).secondaryTextStyle}>{calcText(node.secondaryText, { data })}</p>
         </ListItemText>
       </BaseListItem>
     </div>

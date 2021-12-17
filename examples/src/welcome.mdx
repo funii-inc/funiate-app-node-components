@@ -182,25 +182,25 @@ export default Page
   <List
     node={list1}
     tableID={list1.data.source.tableID}
-    renderItem={({ item }) => <ListItem node={list1.item} mergedTableRecord={item} />}
+    renderItem={({ item }) => <ListItem node={list1.item} data={item} />}
     databaseTableToolAsset={testDatabaseTableToolAsset}
   />
   <List
     node={list2}
     tableID={list2.data.source.tableID}
-    renderItem={({ item }) => <ListItem node={list2.item} mergedTableRecord={item} />}
+    renderItem={({ item }) => <ListItem node={list2.item} data={item} />}
     databaseTableToolAsset={testDatabaseTableToolAsset}
   />
   <List
     node={list3}
     tableID={list3.data.source.tableID}
-    renderItem={({ item }) => <ListItem node={list3.item} mergedTableRecord={item} />}
+    renderItem={({ item }) => <ListItem node={list3.item} data={item} />}
     databaseTableToolAsset={testDatabaseTableToolAsset}
   />
   <List
     node={list4}
     tableID={list4.data.source.tableID}
-    renderItem={({ item }) => <ListItem node={list4.item} mergedTableRecord={item} />}
+    renderItem={({ item }) => <ListItem node={list4.item} data={item} />}
     databaseTableToolAsset={testDatabaseTableToolAsset}
   />
 </ComponentArea>
