@@ -11,7 +11,7 @@ export declare type ComponentProps<T = AppV1_NodeMap, U = any> = {
     actionHandler?: ActionHandler;
     paths?: string[];
     screenItemData?: U;
-    mergedTableRecord: MergedTableRecord | null;
+    data: MergedTableRecord | null;
     children?: React.ReactNode;
     databaseTableToolAsset?: () => {
         useTableRecordTools: ({ tableID }: {
