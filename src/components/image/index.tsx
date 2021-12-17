@@ -24,7 +24,7 @@ const getImageSize = (url: string) => {
   })
 }
 
-const ImageComponent = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Image>) => {
+const ImageComponent = ({ node, fullWidth = true, theme = defaultTheme, actionHandler, paths = [], data }: ComponentProps<AppV1_Image>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -32,8 +32,8 @@ const ImageComponent = ({ node, fullWidth = true, theme = defaultTheme, actionHa
   const [height, setHeight] = useState<number | null>(null)
 
   const images = useMemo(() => {
-    return calcImages(node.images, { mergedTableRecord }).filter((item) => item.url)
-  }, [mergedTableRecord, node.images])
+    return calcImages(node.images, { data }).filter((item) => item.url)
+  }, [data, node.images])
 
   useEffect(() => {
     const task = async () => {

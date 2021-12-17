@@ -7,7 +7,7 @@ import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText } from '../calc'
 import defaultTheme from '../defaultTheme'
 
-const Typography = ({ node, theme = defaultTheme, fullWidth = true, actionHandler, paths = [], mergedTableRecord }: ComponentProps<AppV1_Typography>) => {
+const Typography = ({ node, theme = defaultTheme, fullWidth = true, actionHandler, paths = [], data }: ComponentProps<AppV1_Typography>) => {
   const onCall = useCallableActions(actionHandler)
   const exist = useExistValidActions(paths)
 
@@ -23,7 +23,7 @@ const Typography = ({ node, theme = defaultTheme, fullWidth = true, actionHandle
         onClick={() => onCall(node.actions)}
       >
         {/* FIXME: Variableを実装したらjoin周りのロジック修正 */}
-        {calcText(node.text, { mergedTableRecord })}
+        {calcText(node.text, { data })}
       </BaseTypography>
     </div>
   )
