@@ -1,16 +1,88 @@
-import { ThemeProps, SolidPaint, PlainTextStyle } from '@funii-inc/funii-assist-types'
+import { ThemeProps, SolidPaint, PlainTextStyle, PaletteColor, ThemePalettePaint } from '@funii-inc/funii-assist-types'
 
 export const whitePaint: SolidPaint = { type: 'SOLID', color: { r: 255, g: 255, b: 255, a: 1 } }
-// const blackPaint: SolidPaint = { type: 'SOLID', color: { r: 255, g: 255, b: 255, a: 1 } }
+export const blackPaint: SolidPaint = { type: 'SOLID', color: { r: 0, g: 0, b: 0, a: 1 } }
 export const primaryPaint: SolidPaint = { type: 'SOLID', color: { r: 0, g: 0, b: 0, a: 1 } }
 export const warningPaint: SolidPaint = { type: 'SOLID', color: { r: 245, g: 166, b: 35, a: 1 } }
 export const errorPaint: SolidPaint = { type: 'SOLID', color: { r: 238, g: 0, b: 0, a: 1 } }
 export const successPaint: SolidPaint = { type: 'SOLID', color: { r: 0, g: 223, b: 243, a: 1 } }
-export const textPrimaryPaint: SolidPaint = { type: 'SOLID', color: { r: 33, g: 33, b: 33, a: 1 } }
+
+export const textPrimaryPaint: SolidPaint = { type: 'SOLID', color: { r: 0, g: 0, b: 0, a: 1 } }
+export const textSecondaryPaint: SolidPaint = { type: 'SOLID', color: { r: 102, g: 102, b: 102, a: 1 } }
+export const textDisabledPaint: SolidPaint = { type: 'SOLID', color: { r: 204, g: 204, b: 204, a: 1 } }
+
+export const backgroundPaint: SolidPaint = { type: 'SOLID', color: { r: 248, g: 248, b: 248, a: 1 } }
+
+export const dividerPaint: SolidPaint = { type: 'SOLID', color: { r: 234, g: 234, b: 234, a: 1 } }
+
+export const textPrimaryThemePaint: ThemePalettePaint = { type: 'PALETTE', keys: ['text', 'primary'] }
+export const textSecondaryThemePaint: ThemePalettePaint = { type: 'PALETTE', keys: ['text', 'secondary'] }
+
+type Palette = {
+  primary: PaletteColor
+  secondary: PaletteColor
+  warning: PaletteColor
+  error: PaletteColor
+  success: PaletteColor
+  text: {
+    primary: SolidPaint
+    secondary: SolidPaint
+    disabled: SolidPaint
+  }
+  background: {
+    default: SolidPaint
+    paper: SolidPaint
+  }
+  divider: SolidPaint
+}
+
+const defaultPalette: Palette = {
+  primary: {
+    light: primaryPaint,
+    main: primaryPaint,
+    dark: primaryPaint,
+    contrastText: whitePaint,
+  },
+  secondary: {
+    light: primaryPaint,
+    main: primaryPaint,
+    dark: primaryPaint,
+    contrastText: whitePaint,
+  },
+  warning: {
+    light: warningPaint,
+    main: warningPaint,
+    dark: warningPaint,
+    contrastText: whitePaint,
+  },
+  error: {
+    light: errorPaint,
+    main: errorPaint,
+    dark: errorPaint,
+    contrastText: whitePaint,
+  },
+  success: {
+    light: successPaint,
+    main: successPaint,
+    dark: successPaint,
+    contrastText: whitePaint,
+  },
+  text: {
+    primary: textPrimaryPaint,
+    secondary: textSecondaryPaint,
+    disabled: textDisabledPaint,
+  },
+  background: {
+    default: backgroundPaint,
+    paper: whitePaint,
+  },
+  divider: dividerPaint,
+}
 
 export const LIGHT = 300
 export const REGULAR = 400
 export const MEDIUM = 500
+export const BOLD = 700
 
 export const headline1: PlainTextStyle = {
   fontFamily: null,
@@ -21,7 +93,7 @@ export const headline1: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const headline2: PlainTextStyle = {
@@ -33,7 +105,7 @@ export const headline2: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const headline3: PlainTextStyle = {
@@ -45,7 +117,7 @@ export const headline3: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const headline4: PlainTextStyle = {
@@ -57,7 +129,7 @@ export const headline4: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const headline5: PlainTextStyle = {
@@ -69,7 +141,7 @@ export const headline5: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const headline6: PlainTextStyle = {
@@ -81,7 +153,7 @@ export const headline6: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const subtitle1: PlainTextStyle = {
@@ -93,7 +165,7 @@ export const subtitle1: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const subtitle2: PlainTextStyle = {
@@ -105,7 +177,7 @@ export const subtitle2: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const body1: PlainTextStyle = {
@@ -117,7 +189,7 @@ export const body1: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const body2: PlainTextStyle = {
@@ -129,7 +201,7 @@ export const body2: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const button: PlainTextStyle = {
@@ -141,7 +213,7 @@ export const button: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const caption: PlainTextStyle = {
@@ -153,7 +225,7 @@ export const caption: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
 
 export const overline: PlainTextStyle = {
@@ -165,59 +237,47 @@ export const overline: PlainTextStyle = {
   lineBreak: 'BREAK',
   textAlignHorizontal: 'LEFT',
   textAlignVertical: 'CENTER',
-  fills: [textPrimaryPaint],
+  fills: [textPrimaryThemePaint],
 }
-// ------------
 
-export const defaultTheme: ThemeProps = {
-  palette: {
-    primary: {
-      light: primaryPaint,
-      main: primaryPaint,
-      dark: primaryPaint,
-      contrastText: whitePaint,
-    },
-    secondary: {
-      light: primaryPaint,
-      main: primaryPaint,
-      dark: primaryPaint,
-      contrastText: whitePaint,
-    },
-    warning: {
-      light: warningPaint,
-      main: warningPaint,
-      dark: warningPaint,
-      contrastText: whitePaint,
-    },
-    error: {
-      light: errorPaint,
-      main: errorPaint,
-      dark: errorPaint,
-      contrastText: whitePaint,
-    },
-    success: {
-      light: successPaint,
-      main: successPaint,
-      dark: successPaint,
-      contrastText: whitePaint,
-    },
-  },
-  text: {
-    headline1,
-    headline2,
-    headline3,
-    headline4,
-    headline5,
-    headline6,
-    subtitle1,
-    subtitle2,
-    body1,
-    body2,
-    button,
-    caption,
-    overline,
-  },
-  spacing: 2,
+type Text = {
+  headline1: PlainTextStyle
+  headline2: PlainTextStyle
+  headline3: PlainTextStyle
+  headline4: PlainTextStyle
+  headline5: PlainTextStyle
+  headline6: PlainTextStyle
+  subtitle1: PlainTextStyle
+  subtitle2: PlainTextStyle
+  body1: PlainTextStyle
+  body2: PlainTextStyle
+  button: PlainTextStyle
+  caption: PlainTextStyle
+  overline: PlainTextStyle
+}
+
+const defaultText: Text = {
+  headline1,
+  headline2,
+  headline3,
+  headline4,
+  headline5,
+  headline6,
+  subtitle1,
+  subtitle2,
+  body1,
+  body2,
+  button,
+  caption,
+  overline,
+}
+
+export const SPACING_UNIT = 12
+
+const defaultTheme: ThemeProps = {
+  palette: defaultPalette,
+  text: defaultText,
+  spacing: SPACING_UNIT,
 }
 
 export default defaultTheme
