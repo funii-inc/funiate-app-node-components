@@ -99,8 +99,8 @@ class ReactStyleTranspiler {
     }
 
     const plainPaint = paint.keys.reduce((prev, crt) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return prev![crt as keyof typeof prev]
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
+      return prev![crt as keyof typeof prev] as any
     }, theme['palette'])
 
     return plainPaint as unknown as SolidPaint
@@ -108,22 +108,21 @@ class ReactStyleTranspiler {
 
   toCalcTextStyle = (textStyle: TextStyle, theme = this.defaultTheme) => {
     if (!isThemeTextStyle(textStyle)) {
-      // const calcTextStyle: PlainTextStyle = {
-      //   ...textStyle,
-      //   fills: textStyle.fills.map((fill) => this.toCalcPaint(fill)),
-      // }
-      // return calcTextStyle
-      return textStyle
+      const calcTextStyle: PlainTextStyle = {
+        ...textStyle,
+        fills: textStyle.fills.map((fill) => this.toCalcPaint(fill, theme)),
+      }
+      return calcTextStyle
     }
 
     const plainTextStyle = textStyle.keys.reduce((prev, crt) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      return prev![crt as keyof typeof prev]
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-explicit-any
+      return prev![crt as keyof typeof prev] as any
     }, theme['text'])
 
     const calcTextStyle: PlainTextStyle = {
       ...(plainTextStyle as unknown as PlainTextStyle),
-      // fills: (plainTextStyle as unknown as PlainTextStyle).fills.map((fill) => this.toCalcPaint(fill)),
+      fills: (plainTextStyle as unknown as PlainTextStyle).fills.map((fill) => this.toCalcPaint(fill, theme)),
     }
 
     return calcTextStyle
@@ -275,7 +274,7 @@ class ReactStyleTranspiler {
       letterSpacing: plainTextStyle.letterSpacing,
       textAlign,
       verticalAlign,
-      color: plainTextStyle.fills.length > 0 ? this.toCssColor(plainTextStyle.fills[0].color) : 'black',
+      color: plainTextStyle.fills.length > 0 ? this.toCssColor(this.toCalcPaint(plainTextStyle.fills[0], theme).color) : 'black',
       wordBreak: 'break-word', // MEMO: ここの制御をどうするか考えないといけない
     }
 
@@ -451,7 +450,7 @@ class ReactStyleTranspiler {
       padding: `${buttonPy} ${buttonPx}`,
       borderRadius: buttonBorderRadius,
       border: buttonBorder,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0]).color) : 'black',
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0], theme).color) : 'black',
     }
 
     const iconStyle: React.CSSProperties = {
@@ -460,7 +459,7 @@ class ReactStyleTranspiler {
       fontSize: `${calcTextStyle.fontSize / this.pxUnit}rem`,
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: calcTextStyle.fills.length > 0 ? this.toCssColor(calcTextStyle.fills[0].color) : 'black',
+      backgroundColor: calcTextStyle.fills.length > 0 ? this.toCssColor(this.toCalcPaint(calcTextStyle.fills[0], theme).color) : 'black',
     }
 
     const typographyStyle: React.CSSProperties = {
@@ -511,7 +510,7 @@ class ReactStyleTranspiler {
       width,
       height,
       padding: listPadding,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0]).color) : 'transparent',
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0], theme).color) : 'transparent',
       borderRadius,
       border,
     }
@@ -552,7 +551,7 @@ class ReactStyleTranspiler {
       width,
       height,
       padding: `${itemPaddingVertical} ${itemPaddingHorizontal}`,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0]).color) : 'transparent',
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0], theme).color) : 'transparent',
       borderRadius,
     }
 
@@ -562,7 +561,7 @@ class ReactStyleTranspiler {
       fontSize: `${calcPrimaryTextStyle.fontSize / this.pxUnit}rem`,
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: calcPrimaryTextStyle.fills.length > 0 ? this.toCssColor(calcPrimaryTextStyle.fills[0].color) : 'black',
+      backgroundColor: calcPrimaryTextStyle.fills.length > 0 ? this.toCssColor(this.toCalcPaint(calcPrimaryTextStyle.fills[0], theme).color) : 'black',
     }
 
     const imageIconStyle: React.CSSProperties = {
@@ -573,7 +572,7 @@ class ReactStyleTranspiler {
       backgroundSize: 'cover',
       // FIXME: iconコンポーネントを実装したらbackgroundColorをcolorに変える。
       // color: node.textStyle.fills.length > 0 ? this.toCSSColor(node.textStyle.fills[0].color) : 'black',
-      backgroundColor: calcPrimaryTextStyle.fills.length > 0 ? this.toCssColor(calcPrimaryTextStyle.fills[0].color) : 'black',
+      backgroundColor: calcPrimaryTextStyle.fills.length > 0 ? this.toCssColor(this.toCalcPaint(calcPrimaryTextStyle.fills[0], theme).color) : 'black',
     }
 
     const primaryTextStyle: React.CSSProperties = this.toCssTextStyle(node.primaryTextStyle, theme)
@@ -620,7 +619,7 @@ class ReactStyleTranspiler {
       width,
       height,
       padding: framePadding,
-      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0]).color) : 'transparent',
+      backgroundColor: node.fills.length > 0 ? this.toCssColor(this.toCalcPaint(node.fills[0], theme).color) : 'transparent',
       borderRadius,
       border,
     }

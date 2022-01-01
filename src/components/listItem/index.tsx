@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppV1_ListItem, Variable, StorageFile, InterNalLinkAction } from '@funii-inc/funii-assist-types'
+import { AppV1_ListItem, Variable, StorageFile, InternalLinkAction } from '@funii-inc/funii-assist-types'
 import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import { calcText, calcImages } from '../calc'
@@ -26,10 +26,10 @@ const ListItem = ({ node, fullWidth = true, theme = defaultTheme, actionHandler,
       return {
         ...action,
         data: {
-          ...(action as InterNalLinkAction).data,
+          ...(action as InternalLinkAction).data,
           recordID: data.id,
         },
-      } as InterNalLinkAction
+      } as InternalLinkAction
     }
     return action
   })
