@@ -1,4 +1,4 @@
-import { StorageFile, Variable, MergedTableRecord } from '@funii-inc/funii-assist-types'
+import { StorageFile, Variable, MergedTableRecord } from '@funii-inc/funiate-types'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isVariable = (arg: any): arg is Variable => {

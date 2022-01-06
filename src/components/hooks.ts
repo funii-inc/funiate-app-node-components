@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { Action } from '@funii-inc/funii-assist-types'
+import { Action } from '@funii-inc/funiate-types'
 import { ActionHandler } from './props'
 
 const defaultActionHandler: ActionHandler = (action) => console.info(`${action.type}-action`)

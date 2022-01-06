@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { AppV1_Typography } from '@funii-inc/funii-assist-types'
+import { AppV1_Typography } from '@funii-inc/funiate-types'
 import { ComponentProps } from '../props'
 import transpiler from '../transpiler'
 import { useCallableActions, useExistValidActions } from '../hooks'

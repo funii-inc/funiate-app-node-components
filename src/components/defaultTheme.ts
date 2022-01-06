@@ -1,4 +1,4 @@
-import { ThemeProps, SolidPaint, PlainTextStyle, PaletteColor, ThemePalettePaint } from '@funii-inc/funii-assist-types'
+import { ThemeProps, SolidPaint, PlainTextStyle, PaletteColor, ThemePalettePaint } from '@funii-inc/funiate-types'
 
 export const whitePaint: SolidPaint = { type: 'SOLID', color: { r: 255, g: 255, b: 255, a: 1 } }
 export const blackPaint: SolidPaint = { type: 'SOLID', color: { r: 0, g: 0, b: 0, a: 1 } }

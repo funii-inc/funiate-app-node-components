@@ -1,6 +1,6 @@
-# funii-assist-web-components
+# funiate-app-node-components
 
-**[github-pages](https://funii-inc.github.io/funii-assist-web-components/)**
+**[github-pages](https://funii-inc.github.io/funiate-app-node-components/)**
 
 ## Contribute
 
@@ -18,10 +18,10 @@ GitHub Packagesで公開する場合、レジストリを登録する必要が�
 
 ```
 // with npm
-npm install @funii-inc/funii-assist-web-components
+npm install @funii-inc/funiate-app-node-components
 
 // with yarn
-yarn add @funii-inc/funii-assist-web-components
+yarn add @funii-inc/funiate-app-node-components
 ```
 
 ## Peer Dependencies
@@ -29,12 +29,9 @@ yarn add @funii-inc/funii-assist-web-components
 ライブラリを利用するために、下記ライブラリをインストールする必要があります。
 
 ```
-"@funii-inc/funii-assist-types": "latest",
+"@funii-inc/funiate-types": ">=0.3.17",
+"pure-react-carousel": ">=1.27.6",
 "react": ">=16.9.0",
 "react-dom": ">=16.9.0",
-"react-icons": "^3.11.0",
-"react-multi-carousel": "^2.5.5",
-"react-responsive": "^8.2.0",
-"styled-components": ">=5.2.1",
-"validator": "^13.1.17"
+"styled-components": ">=5.2.1"
 ```

@@ -993,10 +993,10 @@
     minimatch "^3.0.4"
     strip-json-comments "^3.1.1"
 
-"@funii-inc/funii-assist-types@^0.3.16":
-  version "0.3.16"
-  resolved "https://npm.pkg.github.com/download/@funii-inc/funii-assist-types/0.3.16/19285e739d97e337991d91fcd1040cd47c82f61d5644c74e996add2ede5c2bb3#a96230bbadc762f6e36cfa78e4e54f8ff599102e"
-  integrity sha512-MRAbls9/RZA5WAizhVkcdcTN9f8Xj+9mhjKIU32CX9BWjkkAkTqbwIkd1KTsIiAsXYIsnf6hNiOS+EnrhP/5Iw==
+"@funii-inc/funiate-types@^0.3.17":
+  version "0.3.17"
+  resolved "https://npm.pkg.github.com/download/@funii-inc/funiate-types/0.3.17/4ca63d32df6c15bff55470df904769ba5193ad4babb370f2f6f3f712b3d3225c#ab9e7c11ddedd20ef105a2026ccedc2bc0a792a3"
+  integrity sha512-CG0A3zQL5lIZCTOxHbzAa/vsYv4KFogPmAmj0QLZ1cy3asfzAmOewm40emXooysIqFcREpJ5ROzsfseASbwe6A==
 
 "@mdx-js/loader@^1.6.16":
   version "1.6.22"

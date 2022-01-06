@@ -1,4 +1,4 @@
-import { AppV1_NodeMap, Action, AppV1_List, AppV1_Frame, ThemeProps, MergedTableRecord } from '@funii-inc/funii-assist-types'
+import { AppV1_NodeMap, Action, AppV1_List, AppV1_Frame, ThemeProps, MergedTableRecord } from '@funii-inc/funiate-types'
 export type ArtboardSize = 'desktop' | 'tablet' | 'mobile'
 
 export const DESKTOP_MIN_WIDTH = 1200
