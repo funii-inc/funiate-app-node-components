@@ -1,4 +1,4 @@
-import { AppV1_Typography, AppV1_Image, AppV1_Space, AppV1_Button, AppV1_List, AppV1_ListItem, AppV1_Frame } from '@funii-inc/funii-assist-types'
+import { AppV1_Typography, AppV1_Image, AppV1_Space, AppV1_Button, AppV1_List, AppV1_ListItem, AppV1_Frame } from '@funii-inc/funiate-types'
 
 const LIGHT = 300
 const REGULAR = 400
