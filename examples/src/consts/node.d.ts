@@ -1,4 +1,4 @@
-import { AppV1_Typography, AppV1_Image, AppV1_Space, AppV1_Button, AppV1_List, AppV1_Frame } from '@funii-inc/funii-assist-types';
+import { AppV1_Typography, AppV1_Image, AppV1_Space, AppV1_Button, AppV1_List, AppV1_Frame } from '@funii-inc/funiate-types';
 export declare const typography1: AppV1_Typography;
 export declare const typography2: AppV1_Typography;
 export declare const typography3: AppV1_Typography;

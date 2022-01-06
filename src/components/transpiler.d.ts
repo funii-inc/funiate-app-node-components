@@ -1,6 +1,6 @@
 import React from 'react';
 import { Property } from 'csstype';
-import { AlignHorizontal, AlignVertical, AppV1_Button, AppV1_Frame, AppV1_Image, AppV1_List, AppV1_ListItem, AppV1_Space, AppV1_Typography, ThemeProps, AxisAlign, AxisDistribute, Color, SizingMode, SolidPaint, Paint, PlainTextStyle, TextStyle } from '@funii-inc/funii-assist-types';
+import { AlignHorizontal, AlignVertical, AppV1_Button, AppV1_Frame, AppV1_Image, AppV1_List, AppV1_ListItem, AppV1_Space, AppV1_Typography, ThemeProps, AxisAlign, AxisDistribute, Color, SizingMode, SolidPaint, Paint, PlainTextStyle, TextStyle } from '@funii-inc/funiate-types';
 declare class ReactStyleTranspiler {
     constructor(pxUnit?: number, defaultTheme?: ThemeProps);
     pxUnit: number;

@@ -1,4 +1,4 @@
-import { StorageFile, Variable, MergedTableRecord } from '@funii-inc/funii-assist-types';
+import { StorageFile, Variable, MergedTableRecord } from '@funii-inc/funiate-types';
 declare type CalcOption = {
     data?: MergedTableRecord | null;
 };
