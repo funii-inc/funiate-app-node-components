@@ -20,7 +20,7 @@ import {
   PlainTextStyle,
   TextStyle,
   ThemeTextStyle,
-} from '@funii-inc/funii-assist-types'
+} from '@funii-inc/funiate-types'
 import _defaultTheme from './defaultTheme'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

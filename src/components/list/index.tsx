@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { AppV1_List, MergedTableRecord, mergeTableRecord } from '@funii-inc/funii-assist-types'
+import { AppV1_List, MergedTableRecord, mergeTableRecord } from '@funii-inc/funiate-types'
 import { ListProps } from '../props'
 import transpiler from '../transpiler'
 import defaultTheme from '../defaultTheme'

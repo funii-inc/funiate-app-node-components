@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppV1_Space } from '@funii-inc/funii-assist-types'
+import { AppV1_Space } from '@funii-inc/funiate-types'
 import { ComponentProps } from '../props'
 import transpiler from '../transpiler'
 

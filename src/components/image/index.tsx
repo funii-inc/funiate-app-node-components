@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { CarouselProvider, Slider, Slide } from 'pure-react-carousel'
 import styled from 'styled-components'
-import { AppV1_Image } from '@funii-inc/funii-assist-types'
+import { AppV1_Image } from '@funii-inc/funiate-types'
 import { ComponentProps } from '../props'
 import { useCallableActions, useExistValidActions } from '../hooks'
 import transpiler from '../transpiler'

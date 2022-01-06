@@ -1,6 +1,6 @@
 import React from 'react'
 // import styled from 'styled-components'
-import { AppV1_Frame } from '@funii-inc/funii-assist-types'
+import { AppV1_Frame } from '@funii-inc/funiate-types'
 import { FrameProps } from '../props'
 import transpiler from '../transpiler'
 import defaultTheme from '../defaultTheme'
